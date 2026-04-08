@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<title>Evan Vignon Portfolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Fredoka', sans-serif; }
+:root, [data-theme="dark"] { --bg: #0d1414; --sb: #161e1e; --card: #1a2222; --ac: #40C9FF; --acd: #0096FF; --acl: #00D1FF; --tx: #ffffff; --mu: #8aa0a0; --br: rgba(64,201,255,0.15); --inp-bg: #111c1c; --inp-bd: rgba(64,201,255,0.2); }
+[data-theme="light"] { --bg: #eef2f7; --sb: #ffffff; --card: #e0e8f0; --ac: #0096FF; --acd: #006ecc; --acl: #40C9FF; --tx: #0d1414; --mu: #556677; --br: rgba(0,120,255,0.14); --inp-bg: #f0f5fb; --inp-bd: rgba(0,120,255,0.25); }
+html, body { background: var(--bg); color: var(--tx); height: 100%; transition: background .4s, color .4s; }
+body { display: flex; height: 100vh; overflow: hidden; }
+.theme-toggle { position: fixed; top: 16px; right: 16px; z-index: 999; }
+.toggle-cb { display: none; }
+.toggle-lbl { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: rgba(64,201,255,0.07); border: 1px solid var(--br); border-radius: 20px; cursor: pointer; font-size: 13px; color: var(--tx); transition: all .3s; }
+.toggle-lbl:hover { background: rgba(64,201,255,0.15); border-color: var(--ac); }
+.toggle-sw { width: 38px; height: 20px; background: rgba(64,201,255,0.15); border: 1px solid var(--br); border-radius: 10px; position: relative; transition: all .3s; }
+.toggle-sw::after { content: ''; position: absolute; width: 16px; height: 16px; background: var(--ac); border-radius: 50%; top: 2px; left: 2px; transition: all .3s; }
+.toggle-cb:checked ~ .toggle-lbl .toggle-sw::after { left: 20px; }
+.sidebar { width: 255px; min-width: 255px; flex-shrink: 0; background: linear-gradient(180deg, rgba(22,30,30,.97) 0%, rgba(13,20,20,.97) 100%); border-right: 1px solid var(--br); box-shadow: 4px 0 28px rgba(64,201,255,.08); display: flex; flex-direction: column; justify-content: space-between; padding: 22px 14px 18px; z-index: 100; position: relative; overflow: hidden; transition: background .4s; }
+[data-theme="light"] .sidebar { background: linear-gradient(180deg, rgba(255,255,255,.99) 0%, rgba(238,242,247,.97) 100%); }
+.sb-blob { position: absolute; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(32px); }
+.sb-b1 { width:170px;height:170px; background: radial-gradient(circle,rgba(64,201,255,.16),transparent 70%); top:-40px;left:-60px; animation: sbf1 9s ease-in-out infinite; }
+.sb-b2 { width:130px;height:130px; background: radial-gradient(circle,rgba(0,150,255,.12),transparent 70%); bottom:50px;right:-50px; animation: sbf2 13s ease-in-out infinite; }
+.sb-b3 { width:90px;height:90px; background: radial-gradient(circle,rgba(0,209,255,.09),transparent 70%); top:52%;left:50%;transform:translate(-50%,-50%); animation: sbf1 17s ease-in-out infinite reverse; }
+@keyframes sbf1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
+@keyframes sbf2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(18px)} }
+.sb-inner { position: relative; z-index: 2; }
+.profile { background: linear-gradient(135deg,rgba(64,201,255,.09),rgba(0,150,255,.04)); border: 1px solid var(--br); border-radius: 18px; padding: 16px 12px; text-align: center; margin-bottom: 20px; transition: all .4s; }
+.profile:hover { background: linear-gradient(135deg,rgba(64,201,255,.18),rgba(0,150,255,.09)); box-shadow: 0 0 20px rgba(64,201,255,.2); transform: translateY(-3px); }
+.profile-av { width: 58px; height: 58px; border-radius: 50%; background: linear-gradient(135deg,var(--ac),var(--acd)); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; color: #0d1414; box-shadow: 0 0 16px rgba(64,201,255,.3); }
+.profile h1 { font-size: 16px; font-weight: 600; line-height: 1.3; }
+.profile h1 span { background: linear-gradient(135deg,var(--ac),var(--acl)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: block; }
+.profile p { font-size: 10.5px; color: var(--mu); margin-top: 5px; }
+.menu { display: flex; flex-direction: column; gap: 7px; }
+.menu a { display: flex; align-items: center; gap: 9px; padding: 10px 13px; border-radius: 13px; text-decoration: none; color: var(--tx); font-size: 13px; background: rgba(64,201,255,.03); border: 1px solid transparent; transition: all .3s; position: relative; overflow: hidden; }
+.menu a::after { content: ''; position: absolute; left: -100%; top: 0; width: 100%; height: 100%; background: linear-gradient(90deg,transparent,rgba(64,201,255,.15),transparent); transition: left .45s; }
+.menu a:hover::after { left: 100%; }
+.menu a:hover { background: rgba(64,201,255,.11); border-color: var(--ac); transform: translateX(5px); }
+.menu a.active { background: linear-gradient(135deg,var(--ac),var(--acl)); color: #0d1414; font-weight: 600; box-shadow: 0 0 20px rgba(64,201,255,.3); }
+.sb-footer { position: relative; z-index: 2; text-align: center; font-size: 10px; color: var(--mu); }
+.socials { display: flex; justify-content: center; gap: 9px; margin-bottom: 7px; }
+.socials a, .socials button { width: 32px; height: 32px; border-radius: 50%; background: rgba(64,201,255,.07); border: 1px solid var(--br); display: flex; align-items: center; justify-content: center; color: var(--tx); text-decoration: none; font-size: 13px; transition: all .3s; cursor: pointer; }
+.socials a:hover, .socials button:hover { background: linear-gradient(135deg,var(--ac),var(--acl)); color: #0d1414; transform: scale(1.15) rotate(8deg); box-shadow: 0 0 16px rgba(64,201,255,.4); }
+.main { flex: 1; overflow-y: auto; overflow-x: hidden; scroll-behavior: smooth; position: relative; }
+.bg-blob { position: fixed; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(70px); }
+.bb1{width:420px;height:420px;background:radial-gradient(circle,rgba(64,201,255,.065),transparent 70%);top:-80px;right:8%;animation:bbf1 20s ease-in-out infinite;}
+.bb2{width:350px;height:350px;background:radial-gradient(circle,rgba(0,150,255,.055),transparent 70%);top:30%;left:3%;animation:bbf2 25s ease-in-out infinite;}
+.bb3{width:300px;height:300px;background:radial-gradient(circle,rgba(0,209,255,.05),transparent 70%);top:55%;right:22%;animation:bbf1 17s ease-in-out infinite reverse;}
+.bb4{width:380px;height:380px;background:radial-gradient(circle,rgba(64,201,255,.055),transparent 70%);top:80%;left:12%;animation:bbf2 22s ease-in-out infinite reverse;}
+.bb5{width:260px;height:260px;background:radial-gradient(circle,rgba(0,150,255,.06),transparent 70%);top:15%;right:40%;animation:bbf1 30s ease-in-out infinite;}
+.bb6{width:220px;height:220px;background:radial-gradient(circle,rgba(0,209,255,.045),transparent 70%);top:65%;right:5%;animation:bbf2 18s ease-in-out infinite;}
+@keyframes bbf1{0%,100%{transform:translateY(0) translateX(0)}33%{transform:translateY(-35px) translateX(18px)}66%{transform:translateY(18px) translateX(-12px)}}
+@keyframes bbf2{0%,100%{transform:translateY(0) translateX(0)}33%{transform:translateY(30px) translateX(-16px)}66%{transform:translateY(-18px) translateX(22px)}}
+.section { position: relative; z-index: 1; min-height: 100vh; padding: 56px 44px; display: flex; flex-direction: column; justify-content: center; }
+.section-home { align-items: center; text-align: center; }
+.hero { animation: heroIn .9s ease-out; }
+@keyframes heroIn { from{opacity:0;transform:scale(.87)} to{opacity:1;transform:scale(1)} }
+.hero-name { font-size: 66px; font-weight: 300; letter-spacing: 3px; background: linear-gradient(135deg,var(--ac) 0%,var(--acl) 55%,#fff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 0 28px rgba(64,201,255,.35)); margin-bottom: 12px; line-height: 1.1; }
+.hero-sub { font-size: 17px; color: var(--mu); animation: fadeUp .9s ease-out .3s both; margin-bottom: 36px; }
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.hero-cta { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; animation: fadeUp .9s ease-out .5s both; }
+.btn { padding: 11px 26px; border-radius: 50px; font-size: 14px; font-weight: 500; text-decoration: none; border: none; cursor: pointer; transition: all .35s; display: inline-flex; align-items: center; gap: 7px; }
+.btn-p { background: linear-gradient(135deg,var(--ac),var(--acl)); color: #0d1414; box-shadow: 0 0 22px rgba(64,201,255,.3); }
+.btn-p:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 0 38px rgba(64,201,255,.5); }
+.btn-s { background: rgba(64,201,255,.07); color: var(--ac); border: 1px solid var(--br); }
+.btn-s:hover { background: rgba(64,201,255,.16); border-color: var(--ac); transform: translateY(-4px); }
+.stitle { font-size: 42px; font-weight: 400; margin-bottom: 8px; background: linear-gradient(135deg,var(--ac),var(--acl)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.ssub { font-size: 14px; color: var(--mu); margin-bottom: 34px; max-width: 580px; }
+.sdiv { width: 55px; height: 3px; background: linear-gradient(90deg,var(--ac),var(--acl)); border-radius: 2px; margin-bottom: 32px; }
+.card { background: linear-gradient(135deg,rgba(64,201,255,.08),rgba(0,150,255,.04)); border: 1px solid var(--br); border-radius: 18px; padding: 26px; transition: all .35s; animation: cardIn .7s ease-out both; position: relative; overflow: hidden; }
+.card::before { content: ''; position: absolute; top: -1px; left: -1px; right: -1px; height: 3px; background: linear-gradient(90deg,var(--ac),var(--acl)); border-radius: 18px 18px 0 0; }
+.card:hover { border-color: var(--ac); box-shadow: 0 14px 36px rgba(64,201,255,.14); transform: translateY(-5px); }
+@keyframes cardIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.profil-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; align-items: start; }
+.card h2 { font-size: 18px; color: var(--ac); margin-bottom: 14px; }
+.card p { font-size: 13.5px; line-height: 1.8; color: var(--tx); margin-bottom: 10px; }
+.card strong { color: var(--acl); }
+.stats-row { display: flex; gap: 18px; margin-top: 30px; flex-wrap: wrap; }
+.stat { flex: 1; min-width: 110px; background: linear-gradient(135deg,rgba(64,201,255,.09),rgba(0,150,255,.04)); border: 1px solid var(--br); border-radius: 16px; padding: 18px 14px; text-align: center; cursor: pointer; transition: all .35s; animation: cardIn .7s ease-out both; }
+.stat:hover { transform: translateY(-7px); box-shadow: 0 18px 36px rgba(64,201,255,.18); border-color: var(--ac); }
+.stat-num { font-size: 38px; font-weight: 700; background: linear-gradient(135deg,var(--ac),var(--acl)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; }
+.stat-lbl { font-size: 11.5px; color: var(--mu); margin-top: 5px; }
+.tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px; }
+.tab-btn { padding: 9px 20px; border-radius: 22px; font-size: 13px; font-weight: 500; border: 1px solid var(--br); background: rgba(64,201,255,.05); color: var(--tx); cursor: pointer; transition: all .3s; }
+.tab-btn:hover { background: rgba(64,201,255,.13); border-color: var(--ac); }
+.tab-btn.active { background: linear-gradient(135deg,var(--ac),var(--acl)); color: #0d1414; border-color: transparent; box-shadow: 0 0 18px rgba(64,201,255,.28); }
+.tab-panel { display: none; animation: fadeUp .5s ease-out; }
+.tab-panel.active { display: block; }
+.comp-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(130px,1fr)); gap: 14px; }
+.comp-item { background: linear-gradient(135deg,rgba(64,201,255,.08),rgba(0,150,255,.04)); border: 1px solid var(--br); border-radius: 13px; padding: 18px 12px; text-align: center; transition: all .3s; animation: cardIn .6s ease-out both; }
+.comp-item:hover { transform: translateY(-7px); box-shadow: 0 14px 28px rgba(64,201,255,.16); border-color: var(--ac); }
+.comp-icon { font-size: 26px; margin-bottom: 8px; display: block; }
+.comp-name { font-size: 12px; color: var(--ac); font-weight: 500; }
+.comp-sub { font-size: 10.5px; color: var(--mu); margin-top: 3px; }
+.proj-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 22px; }
+.proj-card { background: linear-gradient(135deg,rgba(64,201,255,.07),rgba(0,150,255,.03)); border: 1px solid var(--br); border-radius: 17px; padding: 26px; position: relative; overflow: hidden; transition: all .4s; animation: cardIn .7s ease-out both; }
+.proj-card::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg,transparent,rgba(64,201,255,.1),transparent); transition: left .5s; }
+.proj-card:hover::after { left: 100%; }
+.proj-card:hover { transform: translateY(-11px); box-shadow: 0 22px 46px rgba(64,201,255,.18); border-color: var(--ac); }
+.proj-emoji { font-size: 30px; margin-bottom: 10px; display: block; }
+.proj-card h3 { font-size: 17px; color: var(--ac); margin-bottom: 10px; }
+.proj-card p { font-size: 13px; line-height: 1.75; color: var(--tx); margin-bottom: 14px; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { background: rgba(64,201,255,.11); color: var(--ac); padding: 3px 10px; border-radius: 9px; font-size: 11px; border: 1px solid rgba(64,201,255,.22); }
+.proj-badge { position: absolute; top: 14px; right: 14px; background: linear-gradient(135deg,var(--ac),var(--acl)); color: #0d1414; font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 8px; }
+.learn-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap: 20px; }
+.learn-card { background: linear-gradient(135deg,rgba(64,201,255,.06),rgba(0,150,255,.03)); border: 1px solid var(--br); border-left: 3px solid var(--ac); border-radius: 15px; padding: 24px; transition: all .4s; animation: cardIn .7s ease-out both; }
+.learn-card:hover { transform: translateY(-7px); box-shadow: 0 16px 32px rgba(64,201,255,.14); }
+.learn-icon { font-size: 28px; margin-bottom: 10px; display: block; }
+.learn-card h3 { font-size: 16px; color: var(--ac); margin-bottom: 8px; }
+.learn-card p { font-size: 13px; line-height: 1.75; }
+.pbar-wrap { margin-top: 12px; background: rgba(64,201,255,.09); border-radius: 4px; height: 5px; overflow: hidden; }
+.pbar { height: 100%; background: linear-gradient(90deg,var(--ac),var(--acl)); border-radius: 4px; animation: growBar 1.5s ease-out both; }
+@keyframes growBar{from{width:0}}
+.bts-intro { background: linear-gradient(135deg,rgba(64,201,255,.07),rgba(0,150,255,.03)); border: 1px solid var(--br); border-radius: 14px; padding: 22px 26px; margin-bottom: 28px; font-size: 14px; line-height: 1.85; }
+.bts-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(290px,1fr)); gap: 24px; }
+.bts-card { background: linear-gradient(135deg,rgba(64,201,255,.07),rgba(0,150,255,.03)); border: 1px solid var(--br); border-radius: 17px; padding: 26px; transition: all .4s; animation: cardIn .7s ease-out both; position: relative; }
+.bts-card.my-opt { box-shadow: 0 0 24px rgba(64,201,255,.16); }
+.bts-card.my-opt::after { content: 'Mon option'; position: absolute; top: 13px; right: 13px; background: linear-gradient(135deg,var(--ac),var(--acl)); color: #0d1414; font-size: 10.5px; font-weight: 600; padding: 3px 9px; border-radius: 8px; }
+.bts-card:hover { transform: translateY(-7px); box-shadow: 0 18px 36px rgba(64,201,255,.16); }
+.bts-card h3 { font-size: 21px; color: var(--ac); margin-bottom: 5px; }
+.bts-card .full { font-size: 11.5px; color: var(--mu); margin-bottom: 14px; font-style: italic; }
+.bts-card p { font-size: 13px; line-height: 1.8; margin-bottom: 12px; }
+.bts-jobs { font-size: 12px; color: var(--mu); background: rgba(64,201,255,.05); border-radius: 9px; padding: 9px 13px; border-left: 2px solid var(--ac); }
+.modal-overlay { position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,.65); display: flex; align-items: center; justify-content: center; padding: 20px; opacity: 0; pointer-events: none; visibility: hidden; backdrop-filter: blur(0px); transition: opacity .35s, visibility .35s, backdrop-filter .35s; }
+.modal-overlay.open { opacity: 1; pointer-events: all; visibility: visible; backdrop-filter: blur(8px); }
+.modal-box { background: linear-gradient(135deg,#111c1c,#0d1414); border: 1px solid var(--br); border-radius: 24px; padding: 40px; width: 100%; max-width: 780px; box-shadow: 0 32px 80px rgba(64,201,255,.18); transform: translateY(30px) scale(.96); transition: transform .35s; position: relative; overflow: hidden; }
+[data-theme="light"] .modal-box { background: linear-gradient(135deg,#eef4fb,#f5f9ff); }
+.modal-overlay.open .modal-box { transform: translateY(0) scale(1); }
+.modal-box::before { content: ''; position: absolute; top: -80px; right: -80px; width: 260px; height: 260px; background: radial-gradient(circle,rgba(64,201,255,.09),transparent 70%); border-radius: 50%; pointer-events: none; }
+.modal-close { position: absolute; top: 16px; right: 18px; background: rgba(64,201,255,.1); border: 1px solid var(--br); color: var(--tx); width: 34px; height: 34px; border-radius: 50%; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .3s; }
+.modal-close:hover { background: var(--ac); color: #0d1414; transform: rotate(90deg); }
+.modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+.modal-title { font-size: 32px; font-weight: 400; background: linear-gradient(135deg,var(--ac),var(--acl)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 6px; }
+.modal-sub { font-size: 13px; color: var(--mu); margin-bottom: 28px; }
+.modal-sdiv { width: 40px; height: 3px; background: linear-gradient(90deg,var(--ac),var(--acl)); border-radius: 2px; margin-bottom: 24px; }
+.coord-item { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(64,201,255,.05); border: 1px solid var(--br); border-radius: 13px; margin-bottom: 12px; transition: all .3s; }
+.coord-item:hover { background: rgba(64,201,255,.11); border-color: var(--ac); transform: translateX(4px); }
+.coord-icon { font-size: 20px; flex-shrink: 0; }
+.coord-label { font-size: 10px; color: var(--mu); display: block; margin-bottom: 2px; }
+.coord-val { color: var(--ac); font-weight: 500; font-size: 13px; }
+.coord-item a { color: var(--ac); text-decoration: none; font-size: 13px; font-weight: 500; }
+.coord-item a:hover { text-decoration: underline; }
+.social-contact { display: flex; gap: 10px; margin-top: 18px; }
+.social-btn { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 12px; background: rgba(64,201,255,.07); border: 1px solid var(--br); color: var(--tx); text-decoration: none; font-size: 13px; transition: all .3s; }
+.social-btn:hover { background: linear-gradient(135deg,var(--ac),var(--acl)); color: #0d1414; border-color: transparent; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(64,201,255,.25); }
+.form-group { margin-bottom: 16px; }
+.form-label { font-size: 12px; color: var(--mu); margin-bottom: 6px; display: block; letter-spacing: .5px; }
+.form-input, .form-textarea { width: 100%; padding: 13px 16px; border-radius: 12px; background: var(--inp-bg); border: 1px solid var(--inp-bd); color: var(--tx); font-size: 14px; font-family: 'Fredoka', sans-serif; transition: all .3s; outline: none; resize: none; }
+.form-input:focus, .form-textarea:focus { border-color: var(--ac); box-shadow: 0 0 0 3px rgba(64,201,255,.12); background: rgba(64,201,255,.04); }
+.form-input::placeholder, .form-textarea::placeholder { color: var(--mu); }
+.form-textarea { height: 110px; }
+.form-submit { width: 100%; padding: 14px; border-radius: 12px; background: linear-gradient(135deg,var(--ac),var(--acl)); color: #0d1414; font-size: 15px; font-weight: 600; border: none; cursor: pointer; transition: all .35s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.form-submit:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(64,201,255,.35); }
+.form-submit:active { transform: scale(.97); }
+.form-success { display: none; text-align: center; padding: 20px; }
+.form-success .check { font-size: 48px; animation: popIn .5s ease-out; }
+@keyframes popIn{from{transform:scale(0)}to{transform:scale(1)}}
+.form-success p { color: var(--ac); font-size: 16px; margin-top: 10px; }
+@media(max-width:900px){.profil-grid{grid-template-columns:1fr}.modal-grid{grid-template-columns:1fr}}
+@media(max-width:768px){
+  body{flex-direction:column}
+  .sidebar{width:100%;min-width:unset;height:auto;flex-direction:row;padding:10px 14px;overflow-x:auto}
+  .sb-inner{display:flex;align-items:center;gap:10px;flex:1}
+  .profile{margin-bottom:0;padding:6px 12px;border-radius:12px;white-space:nowrap}
+  .profile-av{width:30px;height:30px;font-size:13px;margin:0 6px 0 0;display:inline-flex}
+  .menu{flex-direction:row;gap:5px}
+  .menu a{padding:7px 11px;font-size:11.5px;white-space:nowrap}
+  .sb-footer{display:none}
+  .section{padding:24px 18px;min-height:auto}
+  .hero-name{font-size:36px}
+  .stitle{font-size:28px}
+  .theme-toggle{top:auto;bottom:12px;right:12px}
+  .modal-box{padding:24px}
+}
+
+/* PROJECT DETAIL MODALS */
+.proj-modal { position: fixed; inset: 0; z-index: 3000; background: rgba(0,0,0,.75);
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 20px; overflow-y: auto;
+  opacity: 0; pointer-events: none; visibility: hidden;
+  transition: opacity .3s, visibility .3s; }
+.proj-modal.open { opacity: 1; pointer-events: all; visibility: visible; }
+.proj-modal-content { background: var(--card); border: 1px solid var(--border);
+  border-radius: 18px; width: 100%; max-width: 860px;
+  margin: auto; overflow: hidden; animation: fadeUp .35s ease-out; }
+.proj-modal-header { background: var(--sidebar);
+  border-bottom: 1px solid var(--border);
+  padding: 28px 32px 22px; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.proj-modal-header-left { display: flex; flex-direction: column; gap: 10px; }
+.proj-modal-emoji-title { display: flex; align-items: center; gap: 14px; }
+.proj-modal-emoji { font-size: 2rem; }
+.proj-modal-header h2 { font-size: 1.45rem; font-weight: 700; color: var(--text); margin: 0; }
+.proj-modal-htags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.proj-modal-close { background: var(--card); border: 1px solid var(--border);
+  color: var(--text-muted); border-radius: 50%; width: 36px; height: 36px;
+  font-size: .95rem; cursor: pointer; flex-shrink: 0; transition: all .2s;
+  display: flex; align-items: center; justify-content: center; }
+.proj-modal-close:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+.proj-modal-body { padding: 32px; display: flex; flex-direction: column; gap: 28px; }
+.pms { display: flex; flex-direction: column; gap: 10px; }
+.pms h3 { font-size: .75rem; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--accent); margin: 0; padding-bottom: 8px;
+  border-bottom: 1px solid var(--border); }
+.pms p, .pms li { font-size: .92rem; color: var(--text-muted); line-height: 1.7; }
+.pms ul { padding-left: 1.4em; margin: 0; display: flex; flex-direction: column; gap: 4px; }
+.pms-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pms-item { background: var(--bg); border: 1px solid var(--border);
+  border-radius: 10px; padding: 12px 16px; }
+.pms-item strong { font-size: .8rem; color: var(--accent); display: block; margin-bottom: 4px; }
+.pms-item span { font-size: .85rem; color: var(--text-muted); }
+.proj-code-block { background: #0d1117; border: 1px solid #30363d;
+  border-radius: 12px; overflow: hidden; }
+.proj-code-block-header { background: #161b22; border-bottom: 1px solid #30363d;
+  padding: 8px 16px; display: flex; justify-content: space-between; align-items: center; }
+.proj-code-block-header span { font-size: .78rem; color: #7d8590; font-family: monospace; }
+.proj-code-block pre { margin: 0; padding: 18px; overflow-x: auto; }
+.proj-code-block code { font-family: 'Fira Code', 'Consolas', monospace;
+  font-size: .82rem; color: #e6edf3; line-height: 1.7; white-space: pre; }
+.bts-skill { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0;
+  border-bottom: 1px solid var(--border); }
+.bts-skill:last-child { border-bottom: none; }
+.bts-skill-code { background: var(--accent); color: #fff; border-radius: 8px;
+  padding: 4px 10px; font-size: .75rem; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+.bts-skill-desc { font-size: .88rem; color: var(--text-muted); line-height: 1.5; }
+.bts-skill-desc strong { color: var(--text); font-weight: 600; }
+.proj-modal-footer { border-top: 1px solid var(--border); padding-top: 24px;
+  display: flex; gap: 12px; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+.btn-discover { display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 12px; padding: 9px 18px; background: transparent;
+  border: 1px solid var(--accent); color: var(--accent); border-radius: 10px;
+  font-size: .85rem; font-weight: 600; cursor: pointer; transition: all .2s; width: 100%; justify-content: center; }
+.btn-discover:hover { background: var(--accent); color: #fff; }
+.btn-doc-dl { display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 20px; background: var(--accent); color: #fff; border-radius: 10px;
+  font-size: .88rem; font-weight: 600; text-decoration: none; transition: opacity .2s; border: none; cursor: pointer; }
+.btn-doc-dl:hover { opacity: .85; }
+.btn-close-proj { padding: 10px 20px; background: transparent; border: 1px solid var(--border);
+  color: var(--text-muted); border-radius: 10px; font-size: .88rem; cursor: pointer; transition: all .2s; }
+.btn-close-proj:hover { border-color: var(--text-muted); color: var(--text); }
+@media (max-width: 600px) {
+  .proj-modal { padding: 0; align-items: flex-end; }
+  .proj-modal-content { border-radius: 18px 18px 0 0; max-height: 92vh; overflow-y: auto; }
+  .proj-modal-header { padding: 20px; }
+  .proj-modal-body { padding: 20px; }
+  .pms-grid { grid-template-columns: 1fr; }
+}
+
+
+/* PREUVES VISUELLES */
+.proj-screenshots-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.proj-screenshot-slot { background: var(--bg); border: 2px dashed var(--border);
+  border-radius: 12px; overflow: hidden; }
+.proj-screenshot-slot img { width: 100%; display: block; border-radius: 10px 10px 0 0; }
+.proj-screenshot-slot .slot-placeholder {
+  height: 140px; background: linear-gradient(135deg, var(--bg) 0%, var(--card) 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem; color: var(--text-muted); }
+.proj-screenshot-slot .slot-caption {
+  padding: 8px 12px; font-size: .78rem; color: var(--text-muted);
+  border-top: 1px dashed var(--border); background: var(--card); line-height: 1.4; }
+@media (max-width: 600px) { .proj-screenshots-grid { grid-template-columns: 1fr; } }
+
+
+.proj-screenshot-slot img { width: 100%; display: block;
+  border-radius: 10px 10px 0 0; object-fit: cover; max-height: 200px; cursor: zoom-in; }
+.proj-screenshot-slot img:hover { opacity: .9; }
+
+</style>
+</head>
+<body>
+
+<div class="theme-toggle">
+  <input type="checkbox" id="tcb" class="toggle-cb">
+  <label for="tcb" class="toggle-lbl">
+    <span id="ticon">🌙</span>
+    <div class="toggle-sw"></div>
+  </label>
+</div>
+
+<div class="modal-overlay" id="contactModal" role="dialog" aria-modal="true">
+  <div class="modal-box">
+    <button type="button" class="modal-close" id="modalClose">✕</button>
+    <div class="modal-grid">
+      <div>
+        <h2 class="modal-title">Contact</h2>
+        <p class="modal-sub">N'hésitez pas à me contacter !</p>
+        <div class="modal-sdiv"></div>
+        <div class="coord-item">
+          <span class="coord-icon">✉️</span>
+          <div><span class="coord-label">Adresse e-mail</span><a href="mailto:evan.vignon3022005@gmail.com" class="coord-val">evan.vignon3022005@gmail.com</a></div>
+        </div>
+        <div class="coord-item">
+          <span class="coord-icon">📞</span>
+          <div><span class="coord-label">Téléphone</span><a href="tel:+33771843112" class="coord-val">07 71 84 31 12</a></div>
+        </div>
+        <div class="coord-item">
+          <span class="coord-icon">📍</span>
+          <div><span class="coord-label">Localisation</span><span class="coord-val">Aigues-Mortes, France</span></div>
+        </div>
+        <div class="social-contact">
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="social-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg> GitHub
+          </a>
+          <a href="https://www.linkedin.com/in/evan-vignon-15303b3a1/" target="_blank" rel="noopener noreferrer" class="social-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg> LinkedIn
+          </a>
+        </div>
+      </div>
+      <div>
+        <div id="formWrap">
+          <div class="form-group"><label class="form-label" for="fname">NOM / PRÉNOM</label><input class="form-input" id="fname" type="text" placeholder="Jean Dupont"></div>
+          <div class="form-group"><label class="form-label" for="femail">ADRESSE E-MAIL</label><input class="form-input" id="femail" type="email" placeholder="jean@exemple.fr"></div>
+          <div class="form-group"><label class="form-label" for="fmsg">MESSAGE</label><textarea class="form-textarea" id="fmsg" placeholder="Bonjour Evan, je souhaite..."></textarea></div>
+          <button type="button" class="form-submit" onclick="sendContact()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Envoyer le message
+          </button>
+        </div>
+        <div class="form-success" id="formSuccess">
+          <div class="check">✅</div>
+          <p>Message envoyé avec succès !<br>Je vous répondrai dans les plus brefs délais.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<aside class="sidebar">
+  <div class="sb-blob sb-b1"></div><div class="sb-blob sb-b2"></div><div class="sb-blob sb-b3"></div>
+  <div class="sb-inner">
+    <div class="profile">
+      <div class="profile-av">EV</div>
+      <h1>Evan <span>Vignon</span></h1>
+      <p>BTS SIO – Option SISR</p>
+    </div>
+    <nav class="menu">
+      <a href="#home" class="nl">🏠 Accueil</a>
+      <a href="#profil" class="nl">👤 Profil</a>
+      <a href="#competences" class="nl">⚡ Compétences</a>
+      <a href="#projets" class="nl">📂 Projets</a>
+      <a href="#learning" class="nl">📚 En cours</a>
+      <a href="#bts" class="nl">🎓 BTS SIO</a>
+    </nav>
+  </div>
+  <div class="sb-footer">
+    <div class="socials">
+      <button type="button" onclick="openContact()" title="Me contacter">✉️</button>
+      <a href="https://github.com" target="_blank" rel="noopener noreferrer" title="GitHub">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/evan-vignon-15303b3a1/" target="_blank" rel="noopener noreferrer" title="LinkedIn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      </a>
+    </div>
+    <p>© 2026 Evan Vignon</p>
+  </div>
+</aside>
+
+<main class="main" id="ms">
+  <div class="bg-blob bb1"></div><div class="bg-blob bb2"></div><div class="bg-blob bb3"></div>
+  <div class="bg-blob bb4"></div><div class="bg-blob bb5"></div><div class="bg-blob bb6"></div>
+
+  <section class="section section-home" id="home">
+    <div class="hero">
+      <div class="hero-name">Evan Vignon</div>
+      <p class="hero-sub">Étudiant en BTS SIO – Option SISR · Montpellier, France</p>
+      <div class="hero-cta">
+        <a href="#projets" class="btn btn-p nl">📂 Mes projets</a>
+        <a href="#competences" class="btn btn-s nl">⚡ Compétences</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="profil">
+    <h1 class="stitle">Profil</h1>
+    <div class="sdiv"></div>
+    <div class="profil-grid">
+      <div class="card">
+        <h2>🙋‍♂️ À Propos</h2>
+        <p>Je suis <strong>Evan Vignon</strong>, étudiant en deuxième année de <strong>BTS SIO Option SISR</strong> au lycée Jean Mermoz à Montpellier.</p>
+        <p>Passionné par l'informatique, je me spécialise dans <strong>l'administration des infrastructures réseaux et systèmes</strong>. Curieux et orienté terrain, j'aime expérimenter, résoudre des problèmes concrets et explorer les nouvelles technologies.</p>
+        <p>📍 <strong>Aigues-Mortes</strong>, Occitanie, France</p>
+      </div>
+      <div class="card">
+        <h2>🎓 Parcours</h2>
+        <p><strong>BTS SIO Option SISR</strong> — 2e année<br>Lycée Jean Mermoz, Montpellier</p>
+        <p><strong>Baccalauréat Pro Systèmes Numériques</strong><br>Lycée Jean-François Champollion, Redon · 2021–2024 · <strong>Mention Bien</strong></p>
+        <p><strong>Brevet des Collèges</strong><br>Collège d'Alzon, Grau-du-Roi · 2017–2021 · <strong>Mention Assez Bien</strong></p>
+      </div>
+    </div>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-num counter" data-target="15">0</div><div class="stat-lbl">Technologies maîtrisées</div></div>
+      <div class="stat"><div class="stat-num counter" data-target="6">0</div><div class="stat-lbl">Projets réalisés</div></div>
+      <div class="stat"><div class="stat-num counter" data-target="4">0</div><div class="stat-lbl">En cours d'apprentissage</div></div>
+    </div>
+  </section>
+
+  <section class="section" id="competences">
+    <h1 class="stitle">Compétences</h1>
+    <p class="ssub">Technologies et outils maîtrisés, classés par domaine.</p>
+    <div class="sdiv"></div>
+    <div class="tabs">
+      <button type="button" class="tab-btn active" data-tab="reseau">🌐 Réseau / Infra</button>
+      <button type="button" class="tab-btn" data-tab="systeme">🖥️ Systèmes</button>
+      <button type="button" class="tab-btn" data-tab="secu">🔒 Sécurité</button>
+      <button type="button" class="tab-btn" data-tab="web">💻 Web / Scripting</button>
+      <button type="button" class="tab-btn" data-tab="virt">☁️ Virtualisation</button>
+    </div>
+    <div id="tab-reseau" class="tab-panel active">
+      <div class="comp-grid">
+        <div class="comp-item"><span class="comp-icon">🔀</span><div class="comp-name">Routage IP</div><div class="comp-sub">OSPF / RIP / Statique</div></div>
+        <div class="comp-item"><span class="comp-icon">🏷️</span><div class="comp-name">VLAN</div><div class="comp-sub">Tagged / Untagged / SVI</div></div>
+        <div class="comp-item"><span class="comp-icon">🌍</span><div class="comp-name">DNS</div><div class="comp-sub">Zones / PTR / Délégation</div></div>
+        <div class="comp-item"><span class="comp-icon">📡</span><div class="comp-name">DHCP</div><div class="comp-sub">Plages / Options / Relais</div></div>
+        <div class="comp-item"><span class="comp-icon">🌳</span><div class="comp-name">STP / RSTP</div><div class="comp-sub">Spanning Tree</div></div>
+        <div class="comp-item"><span class="comp-icon">📶</span><div class="comp-name">WiFi</div><div class="comp-sub">SSID / VLAN / Portail captif</div></div>
+        <div class="comp-item"><span class="comp-icon">🔄</span><div class="comp-name">NAT / PAT</div><div class="comp-sub">Masquerading / Port-forwarding</div></div>
+        <div class="comp-item"><span class="comp-icon">🛡️</span><div class="comp-name">FHRP</div><div class="comp-sub">HSRP / VRRP</div></div>
+      </div>
+    </div>
+    <div id="tab-systeme" class="tab-panel">
+      <div class="comp-grid">
+        <div class="comp-item"><span class="comp-icon">🏢</span><div class="comp-name">Active Directory</div><div class="comp-sub">AD DS / GPO / OU</div></div>
+        <div class="comp-item"><span class="comp-icon">🖥️</span><div class="comp-name">Windows Server</div><div class="comp-sub">2019 / 2022 / 2025</div></div>
+        <div class="comp-item"><span class="comp-icon">🖥️</span><div class="comp-name">RDS</div><div class="comp-sub">Broker / Gateway / RDSH / FSLogix</div></div>
+        <div class="comp-item"><span class="comp-icon">💿</span><div class="comp-name">FOG Project</div><div class="comp-sub">Déploiement / PXE / Sysprep</div></div>
+        <div class="comp-item"><span class="comp-icon">🐧</span><div class="comp-name">Linux</div><div class="comp-sub">Ubuntu Server / Debian</div></div>
+        <div class="comp-item"><span class="comp-icon">🔒</span><div class="comp-name">PC Kiosk</div><div class="comp-sub">GPO / Hardening / Session Reset</div></div>
+      </div>
+    </div>
+    <div id="tab-secu" class="tab-panel">
+      <div class="comp-grid">
+        <div class="comp-item"><span class="comp-icon">🔥</span><div class="comp-name">Firewall</div><div class="comp-sub">Stormshield / Règles ACL</div></div>
+        <div class="comp-item"><span class="comp-icon">🔐</span><div class="comp-name">VPN</div><div class="comp-sub">IPSec / Site-to-site</div></div>
+        <div class="comp-item"><span class="comp-icon">🛡️</span><div class="comp-name">Hardening</div><div class="comp-sub">GPO / gpedit / Restrictions</div></div>
+        <div class="comp-item"><span class="comp-icon">📡</span><div class="comp-name">Portail Captif</div><div class="comp-sub">Auth WiFi / Borne Grandstream</div></div>
+      </div>
+    </div>
+    <div id="tab-web" class="tab-panel">
+      <div class="comp-grid">
+        <div class="comp-item"><span class="comp-icon">🎨</span><div class="comp-name">HTML / CSS</div><div class="comp-sub">Responsive / Animations</div></div>
+        <div class="comp-item"><span class="comp-icon">⚡</span><div class="comp-name">JavaScript</div><div class="comp-sub">DOM / Events / Async</div></div>
+        <div class="comp-item"><span class="comp-icon">💙</span><div class="comp-name">PowerShell</div><div class="comp-sub">Scripts / Automatisation / Backup</div></div>
+        <div class="comp-item"><span class="comp-icon">📋</span><div class="comp-name">Robocopy</div><div class="comp-sub">Backup / MIR / Logs</div></div>
+      </div>
+    </div>
+    <div id="tab-virt" class="tab-panel">
+      <div class="comp-grid">
+        <div class="comp-item"><span class="comp-icon">📦</span><div class="comp-name">Proxmox VE</div><div class="comp-sub">VMs / Clusters / Nœuds</div></div>
+        <div class="comp-item"><span class="comp-icon">🔧</span><div class="comp-name">Cisco Packet Tracer</div><div class="comp-sub">Lab réseau / Simulation</div></div>
+        <div class="comp-item"><span class="comp-icon">☁️</span><div class="comp-name">Hyper-V / VMware</div><div class="comp-sub">En cours d'apprentissage</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="projets">
+    <h1 class="stitle">Projets Réalisés</h1>
+    <p class="ssub">Projets réalisés en entreprise dans le cadre de mes stages et alternances.</p>
+    <div class="sdiv"></div>
+    <div class="proj-grid">
+      <div class="proj-card">
+        <div class="proj-badge">Entreprise</div>
+        <span class="proj-emoji">💾</span>
+        <h3>Backup NAS Multi-sites</h3>
+        <p>Script PowerShell de sauvegarde incrémentale automatique des partages NAS pour deux sites. Rapport envoyé par email après chaque exécution via SMTP TLS.</p>
+        <div class="tags"><span class="tag">PowerShell</span><span class="tag">Robocopy</span><span class="tag">SMTP</span><span class="tag">Backup</span><span class="tag">Automatisation</span></div>
+        <button type="button" class="btn-discover" onclick="openProjModal('modal-nas')">🔍 Découvrir le projet</button>
+      </div>
+      <div class="proj-card">
+        <div class="proj-badge">Entreprise</div>
+        <span class="proj-emoji">🌐</span>
+        <h3>Infra Réseau – Portail Captif</h3>
+        <p>Déploiement d'une infrastructure réseau chez un client avec Switch Grandstream 24 PoE, VLAN 10, DHCP via SVI, bornes WiFi et portail captif pour les invités.</p>
+        <div class="tags"><span class="tag">VLAN</span><span class="tag">DHCP</span><span class="tag">WiFi</span><span class="tag">Portail captif</span><span class="tag">Grandstream</span></div>
+        <button type="button" class="btn-discover" onclick="openProjModal('modal-portail')">🔍 Découvrir le projet</button>
+      </div>
+      <div class="proj-card">
+        <div class="proj-badge">Entreprise</div>
+        <span class="proj-emoji">🖥️</span>
+        <h3>Infrastructure RDS</h3>
+        <p>Mise en place d'une infrastructure RDS complète en lab Proxmox : AD DS, Connection Broker, RD Gateway, 2× RDSH, FSLogix pour les profils itinérants, serveur de licences.</p>
+        <div class="tags"><span class="tag">RDS</span><span class="tag">FSLogix</span><span class="tag">Active Directory</span><span class="tag">Windows Server</span><span class="tag">Proxmox</span></div>
+        <button type="button" class="btn-discover" onclick="openProjModal('modal-rds')">🔍 Découvrir le projet</button>
+      </div>
+      <div class="proj-card">
+        <div class="proj-badge">Entreprise</div>
+        <span class="proj-emoji">🗂️</span>
+        <h3>Déploiement Active Directory</h3>
+        <p>Déploiement d'un contrôleur de domaine Active Directory sous Windows Server 2025 pour le client [Client] : création du domaine, jonction de 3 VMs Proxmox, gestion des accès RDP via groupes AD.</p>
+        <div class="tags"><span class="tag">Windows Server 2025</span><span class="tag">Active Directory</span><span class="tag">DNS</span><span class="tag">Proxmox</span><span class="tag">RDP</span></div>
+        <button type="button" class="btn-discover" onclick="openProjModal('modal-ad')">🔍 Découvrir le projet</button>
+      </div>
+      <div class="proj-card">
+        <div class="proj-badge">Entreprise</div>
+        <span class="proj-emoji">💿</span>
+        <h3>Serveur FOG – Déploiement PXE</h3>
+        <p>Installation et configuration d'un serveur FOG Project sur Ubuntu Server 24.04 avec DHCP ISC, démarrage PXE, capture et déploiement d'image Windows 11 via Sysprep.</p>
+        <div class="tags"><span class="tag">FOG</span><span class="tag">PXE</span><span class="tag">DHCP</span><span class="tag">Ubuntu Server</span><span class="tag">Sysprep</span></div>
+        <button type="button" class="btn-discover" onclick="openProjModal('modal-fog')">🔍 Découvrir le projet</button>
+      </div>
+      <div class="proj-card">
+        <div class="proj-badge">Entreprise</div>
+        <span class="proj-emoji">🔒</span>
+        <h3>PC Kiosk Public – Windows</h3>
+        <p>Déploiement d'un poste kiosk public sous Windows 11 : création d'un compte Public dédié, hardening GPO via gpedit (blocage CMD, Regedit, PowerShell, TaskManager, Panneau de configuration), déconnexion automatique après inactivité via IdleLogoff (Lithnet) et script de nettoyage automatique de session au démarrage.</p>
+        <div class="tags"><span class="tag">GPO</span><span class="tag">Windows 11</span><span class="tag">IdleLogoff</span><span class="tag">PowerShell</span><span class="tag">Hardening</span><span class="tag">Kiosk</span></div>
+        <button type="button" class="btn-discover" onclick="openProjModal('modal-kiosk')">🔍 Découvrir le projet</button>
+      </div>
+      <div class="proj-card">
+        <div class="proj-badge">Lab</div>
+        <span class="proj-emoji">🔧</span>
+        <h3>Lab Réseau Packet Tracer</h3>
+        <p>Grande infrastructure de simulation sous Cisco Packet Tracer : OSPF multi-zones, DHCP, DNS, STP, VPN IPSec, NAT, WiFi, routage dynamique, FHRP et supervision réseau.</p>
+        <div class="tags"><span class="tag">OSPF</span><span class="tag">VPN IPSec</span><span class="tag">STP</span><span class="tag">NAT</span><span class="tag">FHRP</span><span class="tag">Packet Tracer</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="learning">
+    <h1 class="stitle">En Cours d'Apprentissage</h1>
+    <p class="ssub">Domaines sur lesquels je travaille activement en ce moment.</p>
+    <div class="sdiv"></div>
+    <div class="learn-grid">
+      <div class="learn-card"><span class="learn-icon">🔐</span><h3>Cybersécurité Avancée</h3><p>Pentest, hardening serveurs, analyse de trafic, IDS/IPS et préparation aux certifications sécurité.</p><div class="pbar-wrap"><div class="pbar" style="width:50%"></div></div></div>
+      <div class="learn-card"><span class="learn-icon">☁️</span><h3>Cloud & Virtualisation</h3><p>Azure, AWS, approfondissement VMware/Hyper-V, infrastructures cloud scalables.</p><div class="pbar-wrap"><div class="pbar" style="width:38%"></div></div></div>
+      <div class="learn-card"><span class="learn-icon">📊</span><h3>Monitoring & Logs</h3><p>ELK Stack, Prometheus, Grafana, gestion des logs centralisés et alerting.</p><div class="pbar-wrap"><div class="pbar" style="width:30%"></div></div></div>
+      <div class="learn-card"><span class="learn-icon">⚙️</span><h3>DevOps & Automation</h3><p>Docker, Kubernetes, CI/CD, scripting avancé PowerShell et Bash.</p><div class="pbar-wrap"><div class="pbar" style="width:28%"></div></div></div>
+    </div>
+  </section>
+
+  <section class="section" id="bts">
+    <h1 class="stitle">BTS SIO</h1>
+    <p class="ssub">Services Informatiques aux Organisations</p>
+    <div class="sdiv"></div>
+    <div class="bts-intro">
+      Le <strong>BTS SIO</strong> (Services Informatiques aux Organisations) est une formation <strong>Bac+2</strong> en informatique qui prépare à l'administration et au développement d'infrastructures informatiques. Deux options permettent à chaque étudiant de se spécialiser selon ses aspirations.
+    </div>
+    <div class="bts-grid">
+      <div class="bts-card">
+        <h3>📊 Option SLAM</h3>
+        <div class="full">Solutions Logicielles et Applications Métiers</div>
+        <p>Cette option forme des <strong>développeurs</strong> capables de créer et maintenir des applications métier — développement orienté objet, bases de données, solutions logicielles.</p>
+        <div class="bts-jobs"><strong>Métiers : </strong> Développeur web, Développeur d'applications, Analyste programmeur</div>
+      </div>
+      <div class="bts-card my-opt">
+        <h3>🔧 Option SISR</h3>
+        <div class="full">Solutions d'Infrastructure, Systèmes et Réseaux</div>
+        <p>C'est l'option que j'ai choisie. Elle forme des <strong>administrateurs systèmes et réseaux</strong> — réseaux, serveurs, cybersécurité, administration système.</p>
+        <div class="bts-jobs"><strong>Métiers : </strong> Administrateur systèmes & réseaux, Technicien supérieur, Support infrastructure</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+// THEME
+var _tcb = document.getElementById('tcb');
+var _ticon = document.getElementById('ticon');
+var _htmlEl = document.documentElement;
+function setTheme(t) {
+  _htmlEl.setAttribute('data-theme', t);
+  _tcb.checked = (t === 'light');
+  _ticon.textContent = (t === 'light') ? '☀️' : '🌙';
+}
+setTheme(matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+_tcb.addEventListener('change', function() { setTheme(_tcb.checked ? 'light' : 'dark'); });
+
+// CONTACT MODAL
+var _modal = document.getElementById('contactModal');
+function openContact() { _modal.classList.add('open'); }
+function closeContact() { _modal.classList.remove('open'); }
+document.getElementById('modalClose').addEventListener('click', closeContact);
+_modal.addEventListener('click', function(e) { if (e.target === _modal) closeContact(); });
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeContact(); });
+
+// SEND CONTACT
+function sendContact() {
+  var name = document.getElementById('fname').value.trim();
+  var email = document.getElementById('femail').value.trim();
+  var msg = document.getElementById('fmsg').value.trim();
+  if (!name || !email || !msg) { alert('Merci de remplir tous les champs.'); return; }
+  var subject = encodeURIComponent('Contact Portfolio - ' + name);
+  var body = encodeURIComponent('Nom : ' + name + '\nEmail : ' + email + '\n\n' + msg);
+  window.location.href = 'mailto:evan.vignon3022005@gmail.com?subject=' + subject + '&body=' + body;
+  setTimeout(function() {
+    document.getElementById('formWrap').style.display = 'none';
+    document.getElementById('formSuccess').style.display = 'block';
+    setTimeout(function() {
+      document.getElementById('formWrap').style.display = 'block';
+      document.getElementById('formSuccess').style.display = 'none';
+      document.getElementById('fname').value = '';
+      document.getElementById('femail').value = '';
+      document.getElementById('fmsg').value = '';
+    }, 3500);
+  }, 800);
+}
+
+// TABS — fonction globale appelée depuis onclick
+function switchTab(tabName) {
+  var btns = document.querySelectorAll('.tab-btn');
+  var panels = document.querySelectorAll('.tab-panel');
+  for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
+  for (var j = 0; j < panels.length; j++) panels[j].classList.remove('active');
+  var btn = document.querySelector('.tab-btn[data-tab="' + tabName + '"]');
+  var panel = document.getElementById('tab-' + tabName);
+  if (btn) btn.classList.add('active');
+  if (panel) panel.classList.add('active');
+}
+// Attacher les onclick sur les tabs
+(function() {
+  var btns = document.querySelectorAll('.tab-btn');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].setAttribute('onclick', 'switchTab("' + btns[i].getAttribute('data-tab') + '")');
+  }
+})();
+
+// SCROLL CONTAINER
+var _ms = document.getElementById('ms');
+
+// NAV ACTIVE
+var _navSecs = document.querySelectorAll('.section[id]');
+var _navLinks = document.querySelectorAll('.nl[href]');
+function updateNav() {
+  var st = _ms.scrollTop;
+  var current = _navSecs[0].getAttribute('id');
+  for (var i = 0; i < _navSecs.length; i++) {
+    if (st >= _navSecs[i].offsetTop - 120) current = _navSecs[i].getAttribute('id');
+  }
+  for (var j = 0; j < _navLinks.length; j++) {
+    _navLinks[j].classList.toggle('active', _navLinks[j].getAttribute('href') === '#' + current);
+  }
+}
+_ms.addEventListener('scroll', updateNav);
+updateNav();
+
+// NAV SCROLL LINKS
+var _nlLinks = document.querySelectorAll('.nl');
+for (var _i = 0; _i < _nlLinks.length; _i++) {
+  (function(a) {
+    a.addEventListener('click', function(e) {
+      var h = a.getAttribute('href');
+      if (!h || h.charAt(0) !== '#') return;
+      e.preventDefault();
+      var dest = document.querySelector(h);
+      if (dest) dest.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  })(_nlLinks[_i]);
+}
+
+// COUNTERS — déclenchés au scroll sur ms
+var _countersRan = false;
+function runCounters() {
+  if (_countersRan) return;
+  var profil = document.getElementById('profil');
+  if (!profil) return;
+  if (_ms.scrollTop < profil.offsetTop - _ms.clientHeight + 100) return;
+  _countersRan = true;
+  var counters = document.querySelectorAll('.counter');
+  for (var i = 0; i < counters.length; i++) {
+    (function(el) {
+      var target = parseInt(el.getAttribute('data-target') || '0');
+      var v = 0;
+      var step = Math.max(1, Math.ceil(target / 30));
+      var iv = setInterval(function() {
+        v = Math.min(v + step, target);
+        el.textContent = v;
+        if (v >= target) clearInterval(iv);
+      }, 45);
+    })(counters[i]);
+  }
+}
+_ms.addEventListener('scroll', runCounters);
+
+// PROJECT MODALS
+function openProjModal(id) {
+  var m = document.getElementById(id);
+  if (!m) return;
+  m.classList.add('open');
+  m.scrollTop = 0;
+  // scroll inner content to top too
+  var mc = m.querySelector('.proj-modal-content');
+  if (mc) mc.scrollTop = 0;
+}
+function closeProjModal(id) {
+  var m = document.getElementById(id);
+  if (m) m.classList.remove('open');
+}
+// Close proj modal on backdrop click
+document.querySelectorAll('.proj-modal').forEach(function(m) {
+  m.addEventListener('click', function(e) {
+    if (e.target === m) closeProjModal(m.id);
+  });
+});
+// Close proj modal on Escape (extend existing keydown)
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.proj-modal.open').forEach(function(m) {
+      m.classList.remove('open');
+    });
+  }
+});
+</script>
+
+<!-- ═══════════════════ MODAL RDS ═══════════════════ -->
+<div class="proj-modal" id="modal-rds">
+  <div class="proj-modal-content">
+    <div class="proj-modal-header">
+      <div class="proj-modal-header-left">
+        <div class="proj-modal-emoji-title">
+          <span class="proj-modal-emoji">🖥️</span>
+          <h2>Infrastructure RDS</h2>
+        </div>
+        <div class="proj-modal-htags">
+          <span class="tag">Windows Server</span><span class="tag">RDS</span><span class="tag">FSLogix</span><span class="tag">Proxmox</span><span class="tag">Active Directory</span>
+        </div>
+      </div>
+      <button type="button" class="proj-modal-close" onclick="closeProjModal('modal-rds')">✕</button>
+    </div>
+    <div class="proj-modal-body">
+      <div class="pms">
+        <h3>Contexte</h3>
+        <p>Projet réalisé en environnement de lab sous <strong>Proxmox VE</strong>. L'objectif était de simuler une infrastructure RDS complète telle qu'on la retrouve en entreprise, en regroupant plusieurs rôles sur des VMs distinctes, avec les contraintes matérielles d'un environnement de test.</p>
+      </div>
+      <div class="pms">
+        <h3>Problématique</h3>
+        <p>Comment permettre à des utilisateurs d'accéder à un environnement de travail centralisé depuis n'importe quel poste, tout en garantissant la continuité de leur profil et la répartition de charge entre plusieurs serveurs de session ?</p>
+      </div>
+      <div class="pms">
+        <h3>Objectifs</h3>
+        <ul>
+          <li>Mettre en place une infrastructure RDS multi-serveurs avec haute disponibilité</li>
+          <li>Centraliser les profils utilisateurs via FSLogix (VHDX sur partage réseau)</li>
+          <li>Sécuriser les accès distants via une RD Gateway dédiée</li>
+          <li>Valider la bascule transparente entre les deux serveurs RDSH</li>
+        </ul>
+      </div>
+      <div class="pms">
+        <h3>Solution mise en place</h3>
+        <p>L'infrastructure est composée de 4 serveurs Windows Server sous Proxmox :</p>
+        <div class="pms-grid">
+          <div class="pms-item"><strong>RD-GW</strong><span>Gateway + Connection Broker — point d'entrée unique et répartition de charge</span></div>
+          <div class="pms-item"><strong>RDSH01 / RDSH02</strong><span>Deux serveurs de session pour la haute disponibilité et le load balancing</span></div>
+          <div class="pms-item"><strong>AD-FSLOGIX</strong><span>Active Directory ([labo].local), DNS, stockage profils FSLogix et serveur de licences RDS</span></div>
+          <div class="pms-item"><strong>FSLogix</strong><span>Profils utilisateurs en VHDX montés depuis \\AD-FSLOGIX\FSLogix à chaque connexion</span></div>
+        </div>
+        <p style="margin-top:10px">Les collections de sessions sont configurées dans le Gestionnaire de serveur, avec les serveurs RDSH01 et RDSH02 inclus dans la même collection pour la répartition automatique des connexions.</p>
+      </div>
+            <div class="pms">
+        <h3>Preuves visuelles</h3>
+        <div class="proj-screenshots-grid">
+          <div class="proj-screenshot-slot">
+            <img src="img/rds_view.png" alt="rds_view" loading="lazy">
+            <div class="slot-caption">Vue d'ensemble de l'infrastructure RDS — RD-GW, RDSH01, RDSH02, AD-FSLOGIX</div>
+          </div>
+          <div class="proj-screenshot-slot">
+            <img src="img/rds_broker.png" alt="rds_broker" loading="lazy">
+            <div class="slot-caption">Sélection du serveur Broker (Connection Broker) lors de l'installation des rôles RDS</div>
+          </div>
+          <div class="proj-screenshot-slot">
+            <img src="img/rds_collection.png" alt="rds_collection" loading="lazy">
+            <div class="slot-caption">Vue d'ensemble de la collection de sessions — RDSH01 et RDSH02</div>
+          </div>
+          <div class="proj-screenshot-slot">
+            <img src="img/rds_fslogix.png" alt="rds_fslogix" loading="lazy">
+            <div class="slot-caption">Éditeur de registre — configuration des clés FSLogix (Enabled + VHDLocations)</div>
+          </div>
+        </div>
+      </div>
+      <div class="pms">
+        <h3>Résultats obtenus</h3>
+        <ul>
+          <li>Connexion RDWeb fonctionnelle via HTTPS depuis un navigateur client</li>
+          <li>Bascule transparente entre RDSH01 et RDSH02 — le profil FSLogix est bien récupéré</li>
+          <li>Les fichiers utilisateur (Bureau, Documents) persistent entre les sessions et les serveurs</li>
+          <li>Serveur de licences activé en mode test pour valider le fonctionnement hors période de grâce</li>
+        </ul>
+      </div>
+      <div class="pms">
+        <h3>Compétences BTS mobilisées</h3>
+        <div class="bts-skill"><span class="bts-skill-code">B3.3</span><div class="bts-skill-desc"><strong>Mise en œuvre de solutions de virtualisation</strong> — Déploiement et configuration de VMs sous Proxmox VE</div></div>
+        <div class="bts-skill"><span class="bts-skill-code">B3.1</span><div class="bts-skill-desc"><strong>Installation et configuration des serveurs</strong> — Rôles RDS, AD DS, DNS, FSLogix sur Windows Server</div></div>
+        <div class="bts-skill"><span class="bts-skill-code">B2.3</span><div class="bts-skill-desc"><strong>Gestion des identités et des accès</strong> — Active Directory, comptes utilisateurs, groupes, RDP</div></div>
+        <div class="bts-skill"><span class="bts-skill-code">B4.1</span><div class="bts-skill-desc"><strong>Sécurisation des accès distants</strong> — RD Gateway, certificats HTTPS, cloisonnement des rôles</div></div>
+      </div>
+      <div class="proj-modal-footer">
+        <button type="button" class="btn-close-proj" onclick="closeProjModal('modal-rds')">← Retour</button>
+        <span style="font-size:.8rem;color:var(--text-muted)">📄 Documentation complète disponible sur demande</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ MODAL AD ═══════════════════ -->
+<div class="proj-modal" id="modal-ad">
+  <div class="proj-modal-content">
+    <div class="proj-modal-header">
+      <div class="proj-modal-header-left">
+        <div class="proj-modal-emoji-title">
+          <span class="proj-modal-emoji">🗂️</span>
+          <h2>Déploiement Active Directory</h2>
+        </div>
+        <div class="proj-modal-htags">
+          <span class="tag">Windows Server 2025</span><span class="tag">Active Directory</span><span class="tag">Proxmox</span><span class="tag">DNS</span><span class="tag">RDP</span>
+        </div>
+      </div>
+      <button type="button" class="proj-modal-close" onclick="closeProjModal('modal-ad')">✕</button>
+    </div>
+    <div class="proj-modal-body">
+      <div class="pms">
+        <h3>Contexte</h3>
+        <p>Projet réalisé en entreprise pour le client <strong>[Client]</strong> sur une infrastructure <strong>Proxmox VE</strong> multi-nœuds. Trois VMs Windows Server 2025 sont déployées sur trois nœuds distincts (nœud-01, C3S3, C4S3) pour assurer la répartition de charge et la résilience.</p>
+      </div>
+      <div class="pms">
+        <h3>Problématique</h3>
+        <p>L'entreprise [Client] avait besoin d'une infrastructure centralisée pour gérer l'authentification, les comptes utilisateurs, les droits d'accès et les connexions RDP sur l'ensemble de ses serveurs, dans un environnement multi-VM Proxmox.</p>
+      </div>
+      <div class="pms">
+        <h3>Objectifs</h3>
+        <ul>
+          <li>Déployer un contrôleur de domaine Active Directory sous Windows Server 2025</li>
+          <li>Créer le domaine <code>[client].local</code> avec niveau fonctionnel WS2025</li>
+          <li>Joindre les 3 VMs au domaine et centraliser la gestion des accès RDP</li>
+          <li>Appliquer les mises à jour de sécurité sur l'ensemble des serveurs</li>
+        </ul>
+      </div>
+      <div class="pms">
+        <h3>Solution mise en place</h3>
+        <p>Trois machines virtuelles Windows Server 2025 Standard déployées sur le cluster Proxmox :</p>
+        <div class="pms-grid">
+          <div class="pms-item"><strong>SRV-VM1</strong><span>2 vCPU / 4 Go RAM / 50 Go — Contrôleur de domaine AD DS + DNS</span></div>
+          <div class="pms-item"><strong>SRV-VM2</strong><span>8 vCPU / 16 Go RAM / 200 Go — Serveur membre du domaine</span></div>
+          <div class="pms-item"><strong>SRV-VM3</strong><span>4 vCPU / 16 Go RAM / 200 Go — Serveur membre du domaine</span></div>
+          <div class="pms-item"><strong>GG_RDP_SERVERS</strong><span>Groupe AD créé pour centraliser et contrôler les droits d'accès RDP</span></div>
+        </div>
+        <p style="margin-top:10px">Le domaine est promu sur VM1 (nouvelle forêt), les serveurs VM2 et VM3 sont joints au domaine. Les comptes administrateurs sont créés (admin.support, admin.[client]) et les mises à jour Windows sont appliquées sur les 3 serveurs.</p>
+      </div>
+            <div class="pms">
+        <h3>Preuves visuelles</h3>
+        <div class="proj-screenshots-grid">
+          <div class="proj-screenshot-slot">
+            <img src="img/ad_view.png" alt="ad_view" loading="lazy">
+            <div class="slot-caption">Vue globale de l'environnement Proxmox — les 3 VMs (SRV-VM1, SRV-VM2, SRV-VM3) sur les nœuds</div>
+          </div>
+          <div class="proj-screenshot-slot">
+            <img src="img/ad_utilities.png" alt="ad_utilities" loading="lazy">
+            <div class="slot-caption">Assistant "Ajouter des rôles et fonctionnalités" — sélection du rôle Active Directory Domain Services</div>
+          </div>
+          <div class="proj-screenshot-slot">
+            <img src="img/ad_remote.png" alt="ad_remote" loading="lazy">
+            <div class="slot-caption">Activation du Bureau à distance et ajout du groupe GG_RDP_SERVERS</div>
+          </div>
+          <div class="proj-screenshot-slot">
+            <img src="img/ad_domaine.png" alt="ad_domaine" loading="lazy">
+            <div class="slot-caption">Jonction de SRV-VM2 et SRV-VM3 au domaine [client].local depuis les paramètres système</div>
+          </div>
+        </div>
+      </div>
+      <div class="pms">
+        <h3>Résultats obtenus</h3>
+        <ul>
+          <li>Domaine <code>[client].local</code> opérationnel avec 3 serveurs membres</li>
+          <li>Gestion centralisée des accès RDP via le groupe <code>GG_RDP_SERVERS</code></li>
+          <li>Mises à jour de sécurité appliquées sur les 3 machines via Windows Update</li>
+          <li>Infrastructure prête à accueillir des services supplémentaires (RDS, GPO, DNS secondaire)</li>
+        </ul>
+      </div>
+      <div class="pms">
+        <h3>Compétences BTS mobilisées</h3>
+        <div class="bts-skill"><span class="bts-skill-code">B3.1</span><div class="bts-skill-desc"><strong>Installation et configuration des serveurs</strong> — Déploiement Windows Server 2025, rôle AD DS et DNS</div></div>
+        <div class="bts-skill"><span class="bts-skill-code">B2.3</span><div class="bts-skill-desc"><strong>Gestion des identités et des accès</strong> — Comptes, groupes AD, délégation RDP, UO</div></div>
+        <div class="bts-skill"><span class="bts-skill-code">B3.3</span><div class="bts-skill-desc"><strong>Virtualisation</strong> — Configuration et répartition de VMs sur cluster Proxmox multi-nœuds</div></div>
+        <div class="bts-skill"><span class="bts-skill-code">B1.3</span><div class="bts-skill-desc"><strong>Administration du SI</strong> — Mises à jour, hardening de base, configuration réseau des VMs</div></div>
+      </div>
+      <div class="proj-modal-footer">
+        <button type="button" class="btn-close-proj" onclick="closeProjModal('modal-ad')">← Retour</button>
+        <span style="font-size:.8rem;color:var(--text-muted)">📄 Documentation complète disponible sur demande</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ MODAL FOG ═══════════════════ -->
+<div class="proj-modal" id="modal-fog">
+  <div class="proj-modal-content">
+    <div class="proj-modal-header">
+      <div class="proj-modal-header-left">
+        <div class="proj-modal-emoji-title">
+          <span class="proj-modal-emoji">🌫️</span>
+          <h2>Serveur FOG – Déploiement PXE</h2>
+        </div>
+        <div class="proj-modal-htags">
+          <span class="tag">Ubuntu Server</span><span class="tag">FOG Project</span><span class="tag">PXE</span><span class="tag">DHCP</span><span class="tag">Sysprep</span><span class="tag">Windows 11</span>
+        </div>
+      </div>
+      <button type="button" class="proj-modal-close" onclick="closeProjModal('modal-fog')">✕</button>
+    </div>
+    <div class="proj-modal-body">
+      <div class="pms">
+        <h3>Contexte</h3>
+        <p>Projet réalisé en environnement de lab sur <strong>Ubuntu Server 24.04</strong>. L'objectif était de mettre en place un système de déploiement automatisé d'images Windows via le réseau, pour permettre la réinstallation rapide de postes en entreprise sans intervention manuelle sur chaque machine.</p>
+      </div>
+      <div class="pms">
+        <h3>Problématique</h3>
+        <p>Comment déployer une image Windows 11 sur plusieurs machines d'un réseau de façon centralisée et automatisée, sans nécessiter de support physique (clé USB, DVD), tout en gérant les différences matérielles entre les postes cibles ?</p>
+      </div>
+      <div class="pms">
+        <h3>Objectifs</h3>
+        <ul>
+          <li>Installer et configurer un serveur FOG Project sur Ubuntu Server 24.04</li>
+          <li>Mettre en place un serveur DHCP avec option PXE (next-server)</li>
+          <li>Capturer une image Windows 11 préparée avec Sysprep</li>
+          <li>Déployer l'image sur des VMs aux configurations matérielles différentes</li>
+        </ul>
+      </div>
+      <div class="pms">
+        <h3>Solution mise en place</h3>
+        <p>Le serveur FOG est installé sur Ubuntu Server à l'IP statique <code>10.x.y.15/24</code>. Un serveur DHCP <strong>isc-dhcp-server</strong> est déployé sur la même machine avec les options PXE intégrées. La chaîne de boot utilise <code>undionly.kpxe</code> pour les machines BIOS classique.</p>
+        <div class="pms-grid">
+          <div class="pms-item"><strong>FOG Project</strong><span>Serveur de capture/déploiement d'images via interface web Apache</span></div>
+          <div class="pms-item"><strong>isc-dhcp-server</strong><span>DHCP sur ens18, pool 10.x.y.25-30, option next-server pour PXE</span></div>
+          <div class="pms-item"><strong>Sysprep</strong><span>Généralisation de l'image Windows (suppression SID, pilotes) avant capture</span></div>
+          <div class="pms-item"><strong>Image type</strong><span>Single Disk Resizable — compatible avec disques de tailles différentes</span></div>
+        </div>
+      </div>
+      <div class="pms">
+        <h3>Extrait technique</h3>
+        <div class="proj-code-block">
+          <div class="proj-code-block-header"><span>/etc/dhcp/dhcpd.conf — Configuration DHCP + PXE</span></div>
+          <pre><code>default-lease-time 600;
+max-lease-time 7200;
+authoritative;
+
+subnet 10.x.y.0 netmask 255.255.255.0 {
+  range 10.x.y.25 10.x.y.30;
+  option routers 10.x.y.254;
+  option subnet-mask 255.255.255.0;
+  option domain-name-servers 8.8.8.8;
+  next-server 10.x.y.15;       # IP du serveur FOG
+  filename "undionly.kpxe";       # Boot file PXE BIOS
+}
+
+# Préparation Windows avant capture (terminal admin)
+# powercfg /h off                 # Désactiver hibernation
+# vssadmin delete shadows /all    # Supprimer shadow copies
+# sysprep /generalize /oobe /shutdown</code></pre>
+        </div>
+      </div>
+      
+            <div class="pms">
+        <h3>Preuves visuelles</h3>
+        <div class="proj-screenshots-grid">
+          <div class="proj-screenshot-slot">
+            <img src="img/fog_host.png" alt="fog_host" loading="lazy">
+            <div class="slot-caption">FOG Host Management — création de l'hôte avec nom et adresse MAC</div>
+          </div>
+          <div class="proj-screenshot-slot">
+            <img src="img/fog_new_image.png" alt="FOG Image Management — création image Single Disk Resizable" loading="lazy">
+            <div class="slot-caption">💾 FOG Image Management — création de l'image Windows 11 (Single Disk Resizable)</div>
+          </div>
+          <div class="proj-screenshot-slot">
+            <img src="img/fog_capture.png" alt="FOG — capture de l'image depuis l'interface web" loading="lazy">
+            <div class="slot-caption">📤 Capture de l'image — hôte associé, tâche de capture lancée depuis FOG</div>
+          </div>
+        </div>
+      </div>
+      <div class="pms">
+        <h3>Résultats obtenus</h3>
+        <ul>
+          <li>Capture d'une image Windows 11 réussie depuis une VM via démarrage PXE</li>
+          <li>Déploiement fonctionnel sur des VMs avec configurations matérielles différentes</li>
+          <li>Sysprep garantit la compatibilité inter-machines (SID unique, pilotes Plug & Play)</li>
+          <li>Interface web FOG opérationnelle pour la gestion des hôtes, images et tâches</li>
+        </ul>
+      </div>
+      <div class="pms">
+        <h3>Compétences BTS mobilisées</h3>
+        <div class="bts-skill"><span class="bts-skill-code">B3.2</span><div class="bts-skill-desc"><strong>Déploiement de postes de travail</strong> — Capture et déploiement d'image Windows via FOG/PXE</div></div>
+        <div class="bts-skill"><span class="bts-skill-code">B3.1</span><div class="bts-skill-desc"><strong>Administration Linux</strong> — Installation Ubuntu Server, configuration réseau Netplan, DHCP</div></div>
+        <div class="bts-skill"><span class="bts-skill-code">B1.1</span><div class="bts-skill-desc"><strong>Support utilisateurs</strong> — Réinstallation automatisée de postes, gain de temps en production</div></div>
+        <div class="bts-skill"><span class="bts-skill-code">B2.2</span><div class="bts-skill-desc"><strong>Gestion des incidents</strong> — Restauration rapide d'un poste corrompu via image FOG</div></div>
+      </div>
+      <div class="proj-modal-footer">
+        <button type="button" class="btn-close-proj" onclick="closeProjModal('modal-fog')">← Retour</button>
+        <span style="font-size:.8rem;color:var(--text-muted)">📄 Documentation complète disponible sur demande</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ MODAL KIOSK ═══════════════════ -->
+<div class="proj-modal" id="modal-kiosk">
+  <div class="proj-modal-content">
+    <div class="proj-modal-header">
+      <div class="proj-modal-header-left">
+        <div class="proj-modal-emoji-title">
+          <span class="proj-modal-emoji">🔒</span>
+          <h2>PC Kiosk Public – Windows</h2>
+        </div>
+        <div class="proj-modal-htags">
+          <span class="tag">GPO</span><span class="tag">Windows 11</span><span class="tag">PowerShell</span><span class="tag">Hardening</span><span class="tag">IdleLogoff</span>
+        </div>
+      </div>
+      <button type="button" class="proj-modal-close" onclick="closeProjModal('modal-kiosk')">✕</button>
+    </div>
+    <div class="proj-modal-body">
+      <div class="pms">
+        <h3>Contexte</h3>
+        <p>Projet réalisé en entreprise pour sécuriser un <strong>poste Windows 11 accessible au public</strong>. Le poste est utilisé par des visiteurs sans compte nominatif, ce qui impose de restreindre toute modification système et de garantir le nettoyage complet de la session après chaque utilisation.</p>
+      </div>
+      <div class="pms">
+        <h3>Problématique</h3>
+        <p>Comment déployer un poste public sécurisé sous Windows 11, qui empêche toute modification du système par les utilisateurs non identifiés, se déconnecte automatiquement après inactivité, et efface toutes les données de session à chaque redémarrage ?</p>
+      </div>
+      <div class="pms">
+        <h3>Objectifs</h3>
+        <ul>
+          <li>Créer un compte <code>Public</code> dédié aux utilisateurs sans privilèges</li>
+          <li>Bloquer l'accès aux outils système via GPO locale (gpedit.msc)</li>
+          <li>Déconnecter automatiquement l'utilisateur après une période d'inactivité</li>
+          <li>Nettoyer intégralement la session (fichiers, cache, navigateurs) au redémarrage</li>
+        </ul>
+      </div>
+      <div class="pms">
+        <h3>Solution mise en place</h3>
+        <p>Quatre mécanismes complémentaires sont mis en œuvre pour sécuriser le poste :</p>
+        <div class="pms-grid">
+          <div class="pms-item"><strong>Compte Public</strong><span>Compte local dédié sans droits admin, configuré en session auto-login</span></div>
+          <div class="pms-item"><strong>GPO via gpedit.msc</strong><span>Blocage CMD, Regedit, PowerShell, Gestionnaire des tâches, Panneau de configuration et modifications du bureau</span></div>
+          <div class="pms-item"><strong>IdleLogoff (Lithnet)</strong><span>Utilitaire open-source qui surveille l'inactivité et déconnecte la session après x minutes</span></div>
+          <div class="pms-item"><strong>reset-session.ps1</strong><span>Script PowerShell lancé au démarrage de session qui nettoie tous les dossiers et caches utilisateur</span></div>
+        </div>
+      </div>
+      <div class="pms">
+        <h3>Extrait technique</h3>
+        <div class="proj-code-block">
+          <div class="proj-code-block-header"><span>C:\Script-Public\reset-session.ps1</span></div>
+          <pre><code>$ProfilePath = "C:\Users\[compte-public]"
+
+# 1. Fermer les navigateurs ouverts
+Get-Process msedge,chrome,firefox -ErrorAction SilentlyContinue | Stop-Process -Force
+Start-Sleep -Seconds 2
+
+# 2. Vider les dossiers utilisateur
+$Folders = @("Desktop","Documents","Downloads","Pictures","Videos","Music")
+$Folders | ForEach-Object {
+    Get-ChildItem "$ProfilePath\$_" -Force | Remove-Item -Recurse -Force
+}
+
+# 3. Supprimer caches navigateurs et fichiers récents
+Remove-Item "$ProfilePath\AppData\Local\Microsoft\Edge\User Data" -Recurse -Force
+Remove-Item "$ProfilePath\AppData\Local\Google\Chrome\User Data" -Recurse -Force
+Remove-Item "$ProfilePath\AppData\Roaming\Mozilla\Firefox" -Recurse -Force
+Get-ChildItem "$ProfilePath\AppData\Roaming\Microsoft\Windows\Recent" -Force | Remove-Item -Recurse -Force
+
+# 4. Vider la corbeille
+Clear-RecycleBin -Force</code></pre>
+        </div>
+      </div>
+      
+      <div class="pms">
+        <h3>Preuves visuelles</h3>
+        <div class="proj-screenshots-grid">
+          <div class="proj-screenshot-slot">
+            <img src="img/kiosk_idle.png" alt="IdleLogoff – configuration déconnexion automatique après inactivité" loading="lazy">
+            <div class="slot-caption">⏱️ IdleLogoff — déconnexion automatique après inactivité (Lithnet)</div>
+          </div>
+          <div class="proj-screenshot-slot">
+            <img src="img/kiosk_gpo.png" alt="Hardening GPO – blocages CMD, Regedit, PowerShell, TaskManager" loading="lazy">
+            <div class="slot-caption">⛔ Hardening GPO — blocage CMD, Regedit, PowerShell, TaskManager, Panneau de config</div>
+          </div>
+        </div>
+      </div>
+      <div class="pms">
+        <h3>Résultats obtenus</h3>
+        <ul>
+          <li>Aucun accès aux outils système (CMD, Regedit, PowerShell, Task Manager) depuis le compte Public</li>
+          <li>Déconnexion automatique après inactivité configurée via IdleLogoff</li>
+          <li>Session entièrement nettoyée à chaque ouverture (historique, téléchargements, cache navigateurs)</li>
+          <li>Journal de nettoyage enregistré dans <code>C:\Script-Public\reset.log</code> pour audit</li>
+        </ul>
+      </div>
+      <div class="pms">
+        <h3>Compétences BTS mobilisées</h3>
+        <div class="bts-skill"><span class="bts-skill-code">B4.1</span><div class="bts-skill-desc"><strong>Sécurisation des postes de travail</strong> — Hardening GPO, restriction des outils système, compte minimal</div></div>
+        <div class="bts-skill"><span class="bts-skill-code">B3.2</span><div class="bts-skill-desc"><strong>Configuration de postes</strong> — Déploiement Windows 11, compte Public, stratégies locales</div></div>
+        <div class="bts-skill"><span class="bts-skill-code">B1.3</span><div class="bts-skill-desc"><strong>Scripting et automatisation</strong> — Script PowerShell de nettoyage, journalisation, tâche planifiée</div></div>
+        <div class="bts-skill"><span class="bts-skill-code">B2.1</span><div class="bts-skill-desc"><strong>Gestion de la sécurité</strong> — Protection des données utilisateurs, conformité RGPD sur poste public</div></div>
+      </div>
+      <div class="proj-modal-footer">
+        <button type="button" class="btn-close-proj" onclick="closeProjModal('modal-kiosk')">← Retour</button>
+        <span style="font-size:.8rem;color:var(--text-muted)">📄 Documentation complète disponible sur demande</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════ MODAL PORTAIL CAPTIF ═══════════════════ -->
+<div class="proj-modal" id="modal-portail">
+  <div class="proj-modal-content">
+    <div class="proj-modal-header">
+      <div class="proj-modal-header-left">
+        <div class="proj-modal-emoji-title">
+          <span class="proj-modal-emoji">📡</span>
+          <h2>Infra Réseau – Portail Captif</h2>
+        </div>
+        <div class="proj-modal-htags">
+          <span class="tag">VLAN</span><span class="tag">DHCP</span><span class="tag">Switch Grandstream</span><span class="tag">WiFi</span><span class="tag">Portail captif</span>
+        </div>
+      </div>
+      <button type="button" class="proj-modal-close" onclick="closeProjModal('modal-portail')">✕</button>
+    </div>
+    <div class="proj-modal-body">
+      <div class="pms"><h3>Contexte</h3>
+        <p>Projet réalisé en entreprise chez un client. L'objectif était de déployer une infrastructure réseau complète avec un <strong>Switch Grandstream 24 ports PoE</strong>, des bornes WiFi et un portail captif pour les visiteurs, tout en isolant le réseau invité du réseau interne.</p>
+      </div>
+      <div class="pms"><h3>Problématique</h3>
+        <p>Comment permettre un accès Internet aux visiteurs via WiFi, sans qu'ils puissent accéder au réseau interne de l'entreprise, et en leur imposant une page d'authentification (portail captif) avant toute connexion ?</p>
+      </div>
+      <div class="pms"><h3>Objectifs</h3>
+        <ul>
+          <li>Segmenter le réseau via un VLAN dédié aux invités (VLAN 10)</li>
+          <li>Distribuer les adresses IP aux invités via un DHCP configuré sur l'interface SVI</li>
+          <li>Déployer des bornes WiFi PoE managées et les rattacher au VLAN invité</li>
+          <li>Mettre en place un portail captif pour contrôler l'accès Internet des visiteurs</li>
+        </ul>
+      </div>
+      <div class="pms"><h3>Solution mise en place</h3>
+        <div class="pms-grid">
+          <div class="pms-item"><strong>Switch Grandstream 24 PoE</strong><span>Alimentation et gestion des bornes WiFi, configuration des VLANs et du trunk</span></div>
+          <div class="pms-item"><strong>VLAN 10 – Invités</strong><span>VLAN dédié isolant les visiteurs du LAN interne</span></div>
+          <div class="pms-item"><strong>DHCP via SVI</strong><span>Interface virtuelle de commutation (SVI) sur VLAN 10 faisant office de passerelle et serveur DHCP</span></div>
+          <div class="pms-item"><strong>Portail captif</strong><span>Page d'authentification obligatoire avant tout accès Internet pour les utilisateurs WiFi invités</span></div>
+        </div>
+      </div>
+      <div class="pms"><h3>Extrait technique</h3>
+        <div class="proj-code-block">
+          <div class="proj-code-block-header"><span>Configuration VLAN + SVI + DHCP (Switch Grandstream)</span></div>
+          <pre><code># Création du VLAN invité
+vlan 10
+  name Invites
+
+# Interface SVI — passerelle + DHCP pour le VLAN 10
+interface vlan 10
+  ip address 192.168.x.1 255.255.255.0
+  ip dhcp pool VLAN10-INVITES
+    network 192.168.x.0 255.255.255.0
+    default-router 192.168.x.1
+    dns-server 8.8.8.8
+
+# Port trunk vers les bornes WiFi (PoE)
+interface GigabitEthernet 1/0/x
+  switchport mode trunk
+  switchport trunk allowed vlan 10</code></pre>
+        </div>
+      </div>
+      <div class="pms"><h3>Preuves visuelles</h3>
+        <div class="proj-screenshots-grid">
+          <div class="proj-screenshot-slot">
+             <img src="img/Unapei30.png" alt="Unapei30" loading="lazy">
+            <div class="slot-caption">Schéma réseau de l'infrastructure — topologie Switch, bornes WiFi, VLAN 10, portail captif</div>
+          </div>
+        </div>
+      </div>
+      <div class="pms"><h3>Résultats obtenus</h3>
+        <ul>
+          <li>Réseau invité totalement isolé du LAN interne via VLAN 10</li>
+          <li>Distribution automatique des IPs aux visiteurs via DHCP sur SVI</li>
+          <li>Portail captif fonctionnel — les invités doivent s'authentifier avant d'accéder à Internet</li>
+          <li>Bornes WiFi alimentées en PoE et managées depuis le switch</li>
+        </ul>
+      </div>
+      <div class="pms"><h3>Compétences BTS mobilisées</h3>
+        <div class="bts-skill"><span class="bts-skill-code">B3.1</span><div class="bts-skill-desc"><strong>Configuration réseau</strong> — VLANs, trunk, SVI, DHCP sur switch manageable Grandstream</div></div>
+        <div class="bts-skill"><span class="bts-skill-code">B4.1</span><div class="bts-skill-desc"><strong>Sécurisation réseau</strong> — Isolation du réseau invité, portail captif, segmentation VLAN</div></div>
+        <div class="bts-skill"><span class="bts-skill-code">B1.1</span><div class="bts-skill-desc"><strong>Support et déploiement</strong> — Mise en service d'un équipement réseau en environnement client</div></div>
+      </div>
+      <div class="proj-modal-footer">
+        <button type="button" class="btn-close-proj" onclick="closeProjModal('modal-portail')">← Retour</button>
+        <span style="font-size:.8rem;color:var(--text-muted)">📄 Documentation complète disponible sur demande</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ MODAL NAS BACKUP ═══════════════════ -->
+<div class="proj-modal" id="modal-nas">
+  <div class="proj-modal-content">
+    <div class="proj-modal-header">
+      <div class="proj-modal-header-left">
+        <div class="proj-modal-emoji-title">
+          <span class="proj-modal-emoji">💾</span>
+          <h2>Backup NAS Multi-sites</h2>
+        </div>
+        <div class="proj-modal-htags">
+          <span class="tag">PowerShell</span><span class="tag">Robocopy</span><span class="tag">SMTP TLS</span><span class="tag">Backup</span><span class="tag">Automatisation</span>
+        </div>
+      </div>
+      <button type="button" class="proj-modal-close" onclick="closeProjModal('modal-nas')">✕</button>
+    </div>
+    <div class="proj-modal-body">
+      <div class="pms"><h3>Contexte</h3>
+        <p>Projet réalisé en entreprise pour un client disposant de <strong>deux sites géographiques</strong>, chacun équipé d'un NAS contenant des partages réseau critiques. L'objectif était d'automatiser entièrement la sauvegarde incrémentale de ces partages et d'en recevoir un rapport par email après chaque exécution.</p>
+      </div>
+      <div class="pms"><h3>Problématique</h3>
+        <p>Comment automatiser la sauvegarde incrémentale des partages NAS sur deux sites distants, en gérant l'authentification réseau, en journalisant les opérations et en envoyant un rapport de résultat par email via SMTP sécurisé (TLS) ?</p>
+      </div>
+      <div class="pms"><h3>Objectifs</h3>
+        <ul>
+          <li>Copier incrémentalement les partages des deux NAS vers un emplacement local sécurisé</li>
+          <li>Authentifier l'accès aux partages réseau avec des identifiants chiffrés</li>
+          <li>Générer un log horodaté de chaque opération de sauvegarde</li>
+          <li>Envoyer automatiquement un rapport de synthèse par email (SMTP TLS)</li>
+        </ul>
+      </div>
+      <div class="pms"><h3>Solution mise en place</h3>
+        <div class="pms-grid">
+          <div class="pms-item"><strong>Robocopy /MIR</strong><span>Synchronisation miroir incrémentale — ne copie que les fichiers modifiés ou nouveaux</span></div>
+          <div class="pms-item"><strong>Identifiants chiffrés</strong><span>Mot de passe NAS stocké chiffré dans un fichier .txt via ConvertTo-SecureString</span></div>
+          <div class="pms-item"><strong>Logs horodatés</strong><span>Fichier de log unique par exécution dans C:\Logs avec timestamp dans le nom</span></div>
+          <div class="pms-item"><strong>SMTP TLS port 587</strong><span>Envoi automatique du rapport de synthèse par email après chaque sauvegarde</span></div>
+        </div>
+      </div>
+      <div class="pms"><h3>Extrait technique</h3>
+        <div class="proj-code-block">
+          <div class="proj-code-block-header"><span>PowerShell — backup-nas.ps1 (anonymisé)</span></div>
+          <pre><code># === Paramètres généraux ===
+$logFolder    = &quot;C:\Logs&quot;
+$username     = &quot;[user-nas]&quot;
+$passwordFile = &quot;C:\Scripts\pw.txt&quot;
+
+# === Paramètres Email ===
+$smtpServer    = &quot;[smtp].[domaine-client]&quot;
+$smtpPort      = 587
+$emailFrom     = &quot;no-reply@[domaine-client]&quot;
+$emailTo       = &quot;infra@[domaine-client]&quot;
+$emailSubject  = &quot;Rapport de sauvegarde NAS - $(Get-Date -Format &#x27;dd/MM/yyyy HH:mm&#x27;)&quot;
+$emailUsername = &quot;no-reply@[domaine-client]&quot;
+$emailPassword = &quot;********************&quot;   # stocké séparément en prod
+
+# === Lecture du mot de passe chiffré ===
+$securePassword = Get-Content $passwordFile | ConvertTo-SecureString
+$credential = New-Object System.Management.Automation.PSCredential($username, $securePassword)
+
+# === Dossier de logs ===
+if (!(Test-Path $logFolder)) { New-Item -Path $logFolder -ItemType Directory -Force | Out-Null }
+$logFile = Join-Path $logFolder &quot;backup_nas_$(Get-Date -Format &#x27;yyyyMMdd_HHmmss&#x27;).log&quot;
+
+# === Groupes de sauvegardes (2 sites) ===
+$sauvegardes = @(
+    @{
+        Nom     = &quot;[Site-A]&quot;
+        Partages = @(
+            &quot;\\10.x.x.x\Commun&quot;,
+            &quot;\\10.x.x.x\Partage-1&quot;,
+            &quot;\\10.x.x.x\Public&quot;,
+            &quot;\\10.x.x.x\Sauvegarde&quot;,
+            &quot;\\10.x.x.x\Scan&quot;
+        )
+        DestinationBase = &quot;F:\backup-site-a&quot;
+    },
+    @{
+        Nom     = &quot;[Site-B]&quot;
+        Partages = @(
+            &quot;\\192.168.x.x\Commun&quot;,
+            &quot;\\192.168.x.x\Partage-2&quot;,
+            &quot;\\192.168.x.x\Partage-3&quot;,
+            &quot;\\192.168.x.x\Partage-4&quot;
+        )
+        DestinationBase = &quot;F:\backup-site-b&quot;
+    }
+)
+
+$rapport = @()
+
+# === Boucle principale ===
+foreach ($site in $sauvegardes) {
+    foreach ($source in $site.Partages) {
+        $shareName   = ($source -split &#x27;\\&#x27;)[-1]
+        $destination = Join-Path $site.DestinationBase $shareName
+
+        if (!(Test-Path $source)) {
+            $plain = $credential.GetNetworkCredential().Password
+            cmd.exe /c &quot;net use `&quot;$source`&quot; $plain /user:$($credential.UserName) /persistent:no&quot; | Out-Null
+            Start-Sleep -Seconds 2
+            if (!(Test-Path $source)) {
+                $rapport += &quot;[$($site.Nom) - $shareName] Échec connexion&quot;; continue
+            }
+        }
+
+        if (!(Test-Path $destination)) { New-Item -Path $destination -ItemType Directory -Force | Out-Null }
+
+        robocopy $source $destination /MIR /Z /XA:H /W:5 /R:3 /LOG+:$logFile
+
+        if ($LASTEXITCODE -le 3) { $rapport += &quot;[$($site.Nom) - $shareName] OK (code $LASTEXITCODE)&quot; }
+        else                      { $rapport += &quot;[$($site.Nom) - $shareName] Échec (code $LASTEXITCODE)&quot; }
+    }
+}
+
+# === Envoi rapport email ===
+$smtpCred = New-Object System.Management.Automation.PSCredential(
+    $emailUsername,
+    (ConvertTo-SecureString $emailPassword -AsPlainText -Force)
+)
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+$body = &quot;Sauvegarde terminée.`n`nRésultats :`n&quot; + ($rapport -join &quot;`n&quot;) + &quot;`n`nLog : $logFile&quot;
+Send-MailMessage -From $emailFrom -To $emailTo -Subject $emailSubject `
+    -Body $body -SmtpServer $smtpServer -Port $smtpPort -Credential $smtpCred -UseSsl</code></pre>
+        </div>
+      </div>
+      <div class="pms"><h3>Résultats obtenus</h3>
+        <ul>
+          <li>Sauvegardes automatiques des deux sites sans intervention manuelle</li>
+          <li>Rapport email reçu après chaque exécution avec le statut de chaque partage</li>
+          <li>Logs horodatés permettant une traçabilité complète des opérations</li>
+          <li>Robocopy /MIR garantit une copie miroir exacte avec gestion des suppressions</li>
+        </ul>
+      </div>
+      <div class="pms"><h3>Compétences BTS mobilisées</h3>
+        <div class="bts-skill"><span class="bts-skill-code">B1.3</span><div class="bts-skill-desc"><strong>Automatisation et scripting</strong> — Script PowerShell complet avec gestion d'erreurs, logs et email</div></div>
+        <div class="bts-skill"><span class="bts-skill-code">B2.2</span><div class="bts-skill-desc"><strong>Continuité de service</strong> — Sauvegardes incrémentales automatisées pour garantir la récupération des données</div></div>
+        <div class="bts-skill"><span class="bts-skill-code">B4.1</span><div class="bts-skill-desc"><strong>Sécurité des données</strong> — Chiffrement des identifiants, transmission SMTP via TLS</div></div>
+      </div>
+      <div class="proj-modal-footer">
+        <button type="button" class="btn-close-proj" onclick="closeProjModal('modal-nas')">← Retour</button>
+        <span style="font-size:.8rem;color:var(--text-muted)">📄 Documentation complète disponible sur demande</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
