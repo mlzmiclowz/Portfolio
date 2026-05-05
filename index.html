@@ -286,73 +286,73 @@ body { display: flex; height: 100vh; overflow: hidden; }
 .proj-submenu a.active{background:rgba(64,201,255,.15);border-color:var(--ac);color:var(--ac);font-weight:600;}
 
 /* LIGHTBOX */
-#lightbox-overlay {
+#lb-overlay {
   display: none;
   position: fixed;
   inset: 0;
-  z-index: 9999;
-  background: rgba(0,0,0,.88);
-  backdrop-filter: blur(8px);
+  z-index: 99999;
+  background: rgba(0,0,0,.92);
+  backdrop-filter: blur(10px);
   align-items: center;
   justify-content: center;
-  cursor: zoom-out;
-  animation: fadeIn .25s ease;
+  flex-direction: column;
+  gap: 16px;
 }
-#lightbox-overlay.open { display: flex; }
-@keyframes fadeIn { from { opacity:0 } to { opacity:1 } }
-#lightbox-img {
-  max-width: 92vw;
-  max-height: 88vh;
-  border-radius: 12px;
-  box-shadow: 0 0 60px rgba(64,201,255,.3);
-  animation: zoomIn .25s ease;
-  cursor: default;
+#lb-overlay.open { display: flex; }
+#lb-img {
+  max-width: 102vw;
+  max-height: 102vh;
+  border-radius: 14px;
+  box-shadow: 0 0 80px rgba(64,201,255,.35);
+  animation: lbZoom .22s ease;
+  object-fit: contain;
 }
-@keyframes zoomIn { from { transform:scale(.88); opacity:0 } to { transform:scale(1); opacity:1 } }
-#lightbox-caption {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: #fff;
-  font-size: .85rem;
-  background: rgba(0,0,0,.55);
-  padding: 7px 18px;
-  border-radius: 20px;
-  max-width: 80vw;
+@keyframes lbZoom { from { transform:scale(.84); opacity:0 } to { transform:scale(1); opacity:1 } }
+#lb-caption {
+  color: rgba(255,255,255,.75);
+  font-size: .88rem;
   text-align: center;
-  pointer-events: none;
+  max-width: 70vw;
 }
-#lightbox-close {
+#lb-close {
   position: fixed;
-  top: 18px;
-  right: 22px;
-  background: rgba(64,201,255,.15);
-  border: 1px solid rgba(64,201,255,.3);
+  top: 16px;
+  right: 20px;
+  background: rgba(64,201,255,.18);
+  border: 1px solid rgba(64,201,255,.4);
   color: #fff;
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background .2s;
-  z-index: 10000;
+  transition: background .2s, transform .2s;
+  z-index: 100000;
 }
-#lightbox-close:hover { background: var(--ac); color: #0d1414; }
-.proj-screenshot-slot img { cursor: zoom-in; transition: opacity .2s, transform .2s; }
-.proj-screenshot-slot img:hover { opacity: .85; transform: scale(1.02); }
+#lb-close:hover { background: var(--ac); color: #0d1414; transform: rotate(90deg); }
+/* Toutes les images dans les preuves visuelles deviennent cliquables */
+.proj-screenshot-slot img {
+  cursor: zoom-in !important;
+  transition: transform .2s, box-shadow .2s;
+  display: block;
+  width: 100%;
+  border-radius: 10px 10px 0 0;
+}
+.proj-screenshot-slot img:hover {
+  transform: scale(1.01);
+  box-shadow: 0 6px 24px rgba(64,201,255,.25);
+}
 
 </style>
 </head>
 <body>
-
-<div id="lightbox-overlay" onclick="closeLightbox(event)">
-  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
-  <img id="lightbox-img" src="" alt="">
-  <div id="lightbox-caption"></div>
+<div id="lb-overlay" role="dialog" aria-modal="true">
+  <button id="lb-close" title="Fermer" onclick="lbClose()">✕</button>
+  <img id="lb-img" src="" alt="">
+  <div id="lb-caption"></div>
 </div>
 
 
@@ -597,7 +597,14 @@ body { display: flex; height: 100vh; overflow: hidden; }
         <div class="tags"><span class="tag">GPO</span><span class="tag">Windows 11</span><span class="tag">IdleLogoff</span><span class="tag">PowerShell</span><span class="tag">Hardening</span><span class="tag">Kiosk</span></div>
         <button type="button" class="btn-discover" onclick="openProjModal('modal-kiosk')">🔍 Découvrir le projet</button>
       </div>
-    </div>
+    
+      <div class="proj-card">
+        <div class="proj-badge">Lab</div>
+        <span class="proj-emoji">🔧</span>
+        <h3>Lab Réseau Packet Tracer</h3>
+        <p>Grande infrastructure de simulation sous Cisco Packet Tracer : OSPF multi-zones, DHCP, DNS, STP, VPN IPSec, NAT, WiFi, routage dynamique, FHRP et supervision réseau.</p>
+        <div class="tags"><span class="tag">OSPF</span><span class="tag">VPN IPSec</span><span class="tag">STP</span><span class="tag">NAT</span><span class="tag">FHRP</span><span class="tag">Packet Tracer</span></div>
+      </div></div>
   </section>
 
   <section class="section" id="projets-formation">
@@ -605,13 +612,7 @@ body { display: flex; height: 100vh; overflow: hidden; }
     <p class="ssub">Projets réalisés dans le cadre de ma formation BTS SIO SISR.</p>
     <div class="sdiv"></div>
     <div class="proj-grid">
-      <div class="proj-card">
-        <div class="proj-badge">Lab</div>
-        <span class="proj-emoji">🔧</span>
-        <h3>Lab Réseau Packet Tracer</h3>
-        <p>Grande infrastructure de simulation sous Cisco Packet Tracer : OSPF multi-zones, DHCP, DNS, STP, VPN IPSec, NAT, WiFi, routage dynamique, FHRP et supervision réseau.</p>
-        <div class="tags"><span class="tag">OSPF</span><span class="tag">VPN IPSec</span><span class="tag">STP</span><span class="tag">NAT</span><span class="tag">FHRP</span><span class="tag">Packet Tracer</span></div>
-      </div>
+      
     </div>
   </section>
 
@@ -648,6 +649,29 @@ body { display: flex; height: 100vh; overflow: hidden; }
         <div class="full">Solutions d'Infrastructure, Systèmes et Réseaux</div>
         <p>C'est l'option que j'ai choisie. Elle forme des <strong>administrateurs systèmes et réseaux</strong> — réseaux, serveurs, cybersécurité, administration système.</p>
         <div class="bts-jobs"><strong>Métiers : </strong> Administrateur systèmes & réseaux, Technicien supérieur, Support infrastructure</div>
+      </div>
+    </div>
+    <div class="sdiv"></div>
+    <h2 style="font-size:1.5rem; font-weight:700; margin: 2.5rem 0 0.5rem 0; color: var(--ac);">📡 Veille Technologique</h2>
+    <div class="bts-intro" style="margin-bottom:1.5rem;">
+      La <strong>veille technologique</strong> est une compétence obligatoire inscrite dans le référentiel BTS SIO. Elle permet de suivre les évolutions du secteur informatique, les nouvelles menaces de cybersécurité, les mises à jour critiques et les innovations afin d'adapter continuellement les pratiques professionnelles.
+    </div>
+    <div class="bts-grid">
+      <div class="bts-card">
+        <h3>🎯 Objectifs du référentiel</h3>
+        <p>Maintenir un niveau de connaissance à jour sur les technologies, anticiper les vulnérabilités (CVE), et adapter les infrastructures aux évolutions du marché IT.</p>
+      </div>
+      <div class="bts-card">
+        <h3>🔍 Mes sources</h3>
+        <p>CERT-FR, ANSSI, CVE Details, SecurityWeek, It-Connect, Korben, flux RSS et newsletters spécialisées pour une veille quotidienne structurée.</p>
+      </div>
+      <div class="bts-card">
+        <h3>📋 Thèmes surveillés</h3>
+        <p>Cybersécurité (ransomwares, CVE critiques), virtualisation (Proxmox, VMware), systèmes (Windows Server, Linux Debian) et protocoles réseau.</p>
+      </div>
+      <div class="bts-card">
+        <h3>📝 Restitution</h3>
+        <p>Fiches de veille synthétiques, présentées en cours et mobilisées lors des épreuves E4 et E5 du BTS SIO pour illustrer la compétence de veille.</p>
       </div>
     </div>
   </section>
@@ -810,32 +834,46 @@ function toggleProjMenu(){
   document.getElementById("projArrow").classList.toggle("open",_projOpen);
 }
 
-// LIGHTBOX
-function openLightbox(img) {
-  var overlay = document.getElementById('lightbox-overlay');
-  var lbImg = document.getElementById('lightbox-img');
-  var lbCap = document.getElementById('lightbox-caption');
-  lbImg.src = img.src;
-  lbImg.alt = img.alt;
-  var slot = img.closest('.proj-screenshot-slot');
-  var cap = slot ? slot.querySelector('.slot-caption') : null;
-  lbCap.textContent = cap ? cap.textContent : '';
-  overlay.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeLightbox(e) {
-  if (e && e.target === document.getElementById('lightbox-img')) return;
-  document.getElementById('lightbox-overlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeLightbox();
-});
-// Attacher le click sur toutes les images de preuves visuelles
-document.querySelectorAll('.proj-screenshot-slot img').forEach(function(img) {
-  img.style.cursor = 'zoom-in';
-  img.addEventListener('click', function(e) { e.stopPropagation(); openLightbox(this); });
-});
+// ---- LIGHTBOX ----
+(function() {
+  var overlay = null, lbImg = null, lbCap = null;
+  function init() {
+    overlay = document.getElementById('lb-overlay');
+    lbImg   = document.getElementById('lb-img');
+    lbCap   = document.getElementById('lb-caption');
+    // Délégation globale : intercepte tous les clics sur images dans .proj-screenshot-slot
+    document.addEventListener('click', function(e) {
+      var img = e.target;
+      if (img.tagName === 'IMG' && img.closest && img.closest('.proj-screenshot-slot')) {
+        e.stopPropagation();
+        lbImg.src = img.src;
+        lbImg.alt = img.alt || '';
+        var slot = img.closest('.proj-screenshot-slot');
+        var cap  = slot ? slot.querySelector('.slot-caption') : null;
+        lbCap.textContent = cap ? cap.textContent.trim() : '';
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+    }, true); // capture phase pour passer avant les stopPropagation des modals
+    // Fermer en cliquant sur l'overlay (pas sur l'image)
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay || e.target === lbCap) lbClose();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') lbClose();
+    });
+  }
+  window.lbClose = function() {
+    if (overlay) overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+// ---- FIN LIGHTBOX ----
 
 </script>
 
