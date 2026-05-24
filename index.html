@@ -346,6 +346,29 @@ body { display: flex; height: 100vh; overflow: hidden; }
   box-shadow: 0 6px 24px rgba(64,201,255,.25);
 }
 
+/* ── VEILLE CAROUSEL ── */
+.veille-carousel-wrap { position: relative; overflow: hidden; }
+.veille-carousel { display: flex; transition: transform .45s cubic-bezier(.4,0,.2,1); will-change: transform; }
+.veille-slide { min-width: 100%; padding: 0 4px; box-sizing: border-box; }
+.veille-card-full { background: linear-gradient(135deg,rgba(64,201,255,.08),rgba(0,150,255,.04)); border: 1px solid var(--br); border-radius: 18px; padding: 32px 36px; position: relative; overflow: hidden; }
+.veille-card-full::before { content: ''; position: absolute; top: -1px; left: -1px; right: -1px; height: 3px; background: linear-gradient(90deg,var(--ac),var(--acl)); border-radius: 18px 18px 0 0; }
+.veille-card-full h3 { font-size: 20px; color: var(--ac); margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+.veille-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+@media(max-width:700px){ .veille-row { grid-template-columns: 1fr; } }
+.veille-field { background: rgba(64,201,255,.05); border: 1px solid var(--br); border-radius: 12px; padding: 14px 18px; }
+.veille-field-label { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--ac); margin-bottom: 6px; display: block; }
+.veille-field p { font-size: 13px; line-height: 1.75; color: var(--tx); }
+.veille-field a { color: var(--ac); text-decoration: none; font-size: 13px; }
+.veille-field a:hover { text-decoration: underline; }
+.veille-field.full-width { grid-column: 1 / -1; }
+.veille-nav { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 22px; }
+.veille-nav-btn { width: 40px; height: 40px; border-radius: 50%; background: rgba(64,201,255,.09); border: 1px solid var(--br); color: var(--tx); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .3s; }
+.veille-nav-btn:hover { background: linear-gradient(135deg,var(--ac),var(--acl)); color: #0d1414; border-color: transparent; }
+.veille-dots { display: flex; gap: 8px; }
+.veille-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(64,201,255,.22); border: none; cursor: pointer; transition: all .3s; padding: 0; }
+.veille-dot.active { background: var(--ac); transform: scale(1.25); }
+.veille-counter { font-size: 12px; color: var(--mu); min-width: 40px; text-align: center; }  
+  
 </style>
 </head>
 <body>
@@ -475,7 +498,7 @@ body { display: flex; height: 100vh; overflow: hidden; }
       <div class="card">
         <h2>🎓 Parcours</h2>
         <p><strong>BTS SIO Option SISR</strong> — 2e année<br>Lycée Jean Mermoz, Montpellier</p>
-        <p><strong>Baccalauréat Pro Systèmes Numériques</strong><br>Lycée Jean-François Champollion, Redon · 2021–2024 · <strong>Mention Bien</strong></p>
+        <p><strong>Baccalauréat Pro Systèmes Numériques</strong><br>Lycée Jean-François Champollion, Lattes · 2021–2024 · <strong>Mention Bien</strong></p>
         <p><strong>Brevet des Collèges</strong><br>Collège d'Alzon, Grau-du-Roi · 2017–2021 · <strong>Mention Assez Bien</strong></p>
       </div>
     </div>
@@ -612,8 +635,24 @@ body { display: flex; height: 100vh; overflow: hidden; }
     <p class="ssub">Projets réalisés dans le cadre de ma formation BTS SIO SISR.</p>
     <div class="sdiv"></div>
     <div class="proj-grid">
-      
-    </div>
+  <div class="proj-card">
+    <div class="proj-badge">Formation</div>
+    <span class="proj-emoji">🔐</span>
+    <h3>Projet VPN – IPSec Site-to-Site</h3>
+    <p>Configuration d'un tunnel VPN IPSec site-to-site entre deux sites distants sous Cisco Packet Tracer. Mise en œuvre du chiffrement, de l'authentification et du routage inter-sites sécurisé.</p>
+    <div class="tags"><span class="tag">VPN</span><span class="tag">IPSec</span><span class="tag">Cisco</span><span class="tag">Cryptographie</span><span class="tag">Packet Tracer</span></div>
+    <button type="button" class="btn-discover" onclick="openProjModal('modal-vpn')">🔍 Découvrir le projet</button>
+  </div>
+  <div class="proj-card">
+    <div class="proj-badge">Formation</div>
+    <span class="proj-emoji">📊</span>
+    <h3>Projet Centreon – Supervision Réseau</h3>
+    <p>Déploiement et configuration d'une plateforme de supervision réseau Centreon sur Linux. Ajout d'hôtes, configuration des services, seuils d'alerte et graphes de performance.</p>
+    <div class="tags"><span class="tag">Centreon</span><span class="tag">SNMP</span><span class="tag">Supervision</span><span class="tag">Linux</span><span class="tag">Nagios</span></div>
+    <button type="button" class="btn-discover" onclick="openProjModal('modal-centreon')">🔍 Découvrir le projet</button>
+  </div>
+</div>
+
   </section>
 
 
@@ -652,30 +691,147 @@ body { display: flex; height: 100vh; overflow: hidden; }
       </div>
     </div>
     <div class="sdiv"></div>
-    <h2 style="font-size:1.5rem; font-weight:700; margin: 2.5rem 0 0.5rem 0; color: var(--ac);">📡 Veille Technologique</h2>
+        <h2 style="font-size:1.5rem; font-weight:700; margin: 2.5rem 0 0.5rem 0; color: var(--ac);">📡 Veille Technologique</h2>
     <div class="bts-intro" style="margin-bottom:1.5rem;">
-      La <strong>veille technologique</strong> est une compétence obligatoire inscrite dans le référentiel BTS SIO. Elle permet de suivre les évolutions du secteur informatique, les nouvelles menaces de cybersécurité, les mises à jour critiques et les innovations afin d'adapter continuellement les pratiques professionnelles.
+      La <strong>veille technologique</strong> est une compétence obligatoire inscrite dans le référentiel BTS SIO. Elle consiste à surveiller en continu les évolutions du secteur IT — nouvelles menaces, CVE critiques, mises à jour et innovations — afin d'adapter les pratiques professionnelles.
     </div>
-    <div class="bts-grid">
-      <div class="bts-card">
-        <h3>🎯 Objectifs du référentiel</h3>
-        <p>Maintenir un niveau de connaissance à jour sur les technologies, anticiper les vulnérabilités (CVE), et adapter les infrastructures aux évolutions du marché IT.</p>
-      </div>
-      <div class="bts-card">
-        <h3>🔍 Mes sources</h3>
-        <p>CERT-FR, ANSSI, CVE Details, SecurityWeek, It-Connect, Korben, flux RSS et newsletters spécialisées pour une veille quotidienne structurée.</p>
-      </div>
-      <div class="bts-card">
-        <h3>📋 Thèmes surveillés</h3>
-        <p>Cybersécurité (ransomwares, CVE critiques), virtualisation (Proxmox, VMware), systèmes (Windows Server, Linux Debian) et protocoles réseau.</p>
-      </div>
-      <div class="bts-card">
-        <h3>📝 Restitution</h3>
-        <p>Fiches de veille synthétiques, présentées en cours et mobilisées lors des épreuves E4 et E5 du BTS SIO pour illustrer la compétence de veille.</p>
-      </div>
-    </div>
-  </section>
 
+    <!-- Carrousel veille -->
+    <div class="veille-carousel-wrap">
+      <div class="veille-carousel" id="veilleCarousel">
+
+        <!-- ── SLIDE 1 : Qilin ── -->
+        <div class="veille-slide">
+          <div class="veille-card-full">
+            <h3>🦁 Qilin — Ransomware-as-a-Service</h3>
+            <div class="veille-row">
+              <div class="veille-field">
+                <span class="veille-field-label">🔍 Description de la menace</span>
+                <p>Qilin (aussi appelé Agenda) est un groupe cybercriminel proposant du <strong>Ransomware-as-a-Service (RaaS)</strong>. Ses affiliés louent le malware pour mener des attaques ciblées contre des entreprises, administrations et structures de santé. Le ransomware chiffre les données et exfiltre des informations sensibles avant de réclamer une rançon.</p>
+              </div>
+              <div class="veille-field">
+                <span class="veille-field-label">💥 Impact</span>
+                <p>Chiffrement intégral des systèmes victimes, exfiltration de données confidentielles, double extorsion (rançon + menace de publication). En 2024, Qilin a notamment ciblé des hôpitaux britanniques via le prestataire <strong>Synnovis</strong>, paralysant des milliers d'opérations chirurgicales et analyses de laboratoire.</p>
+              </div>
+              <div class="veille-field">
+                <span class="veille-field-label">🛡️ Mesures de protection</span>
+                <p>Maintenir les systèmes et logiciels à jour (correctifs de sécurité), déployer des solutions EDR/XDR, mettre en place des sauvegardes hors-ligne et testées régulièrement (règle 3-2-1), sensibiliser les utilisateurs au phishing, segmenter les réseaux et appliquer le principe du moindre privilège.</p>
+              </div>
+              <div class="veille-field">
+                <span class="veille-field-label">🔗 Source</span>
+                <p><a href="https://www.cert.ssi.gouv.fr" target="_blank" rel="noopener">CERT-FR</a> · <a href="https://www.security.microsoft.com" target="_blank" rel="noopener">Microsoft MSTIC</a> · ANSSI · SecurityWeek (2024)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SLIDE 2 : Viamedis ── -->
+        <div class="veille-slide">
+          <div class="veille-card-full">
+            <h3>🏥 Viamedis — Fuite de données tiers payant</h3>
+            <div class="veille-row">
+              <div class="veille-field">
+                <span class="veille-field-label">🔍 Description de la menace</span>
+                <p><strong>Viamedis</strong> est un opérateur de tiers payant français gérant les remboursements de complémentaires santé. En février 2024, une cyberattaque (phishing ciblé sur des comptes professionnels de santé) a conduit à une <strong>fuite massive de données personnelles</strong> touchant plus de 33 millions d'assurés en France.</p>
+              </div>
+              <div class="veille-field">
+                <span class="veille-field-label">💥 Impact</span>
+                <p>Données exposées : état civil, date de naissance, numéro de Sécurité sociale, nom de l'assureur, garanties contractuelles. Risque élevé de phishing ciblé, d'usurpation d'identité et de fraudes à l'assurance. La CNIL a ouvert une enquête et notifié les personnes concernées conformément au RGPD.</p>
+              </div>
+              <div class="veille-field">
+                <span class="veille-field-label">🛡️ Mesures de protection</span>
+                <p>Mettre en œuvre une authentification forte (MFA) sur tous les accès professionnels, former le personnel aux techniques de phishing, appliquer une politique stricte de gestion des accès (IAM), chiffrer les bases de données sensibles, et effectuer des audits de sécurité réguliers sur les systèmes exposés.</p>
+              </div>
+              <div class="veille-field">
+                <span class="veille-field-label">🔗 Source</span>
+                <p><a href="https://www.cnil.fr" target="_blank" rel="noopener">CNIL.fr</a> · <a href="https://www.cert.ssi.gouv.fr" target="_blank" rel="noopener">CERT-FR</a> · Le Monde Informatique · LeMagIT (février 2024)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SLIDE 3 : FortiGate ── -->
+        <div class="veille-slide">
+          <div class="veille-card-full">
+            <h3>🔥 FortiGate — CVE-2024-21762 (RCE Critique)</h3>
+            <div class="veille-row">
+              <div class="veille-field">
+                <span class="veille-field-label">🔍 Description de la menace</span>
+                <p>La vulnérabilité <strong>CVE-2024-21762</strong> est une faille critique (<strong>CVSS 9.6</strong>) affectant FortiOS et FortiProxy de Fortinet. Elle permet à un attaquant non authentifié d'exécuter du code arbitraire à distance (<strong>RCE</strong>) via des requêtes HTTP malformées, en exploitant un bug de type <em>out-of-bounds write</em> dans le composant SSL-VPN.</p>
+              </div>
+              <div class="veille-field">
+                <span class="veille-field-label">💥 Impact</span>
+                <p>Prise de contrôle totale du pare-feu sans authentification préalable, permettant l'accès au réseau interne, la pose de backdoors persistantes et la latéralisation sur le SI. Fortinet a confirmé l'exploitation active de cette CVE dans la nature. Versions affectées : FortiOS 6.x à 7.4.x.</p>
+              </div>
+              <div class="veille-field">
+                <span class="veille-field-label">🛡️ Mesures de protection</span>
+                <p>Appliquer immédiatement le patch Fortinet (FortiOS 7.4.3+, 7.2.7+, 7.0.14+). En attente de patch : désactiver le SSL-VPN via l'interface HTTP/HTTPS. Surveiller les journaux d'accès pour détecter des connexions anormales. Mettre en place une veille CVE active sur les équipements périmètriques.</p>
+              </div>
+              <div class="veille-field">
+                <span class="veille-field-label">🔗 Source</span>
+                <p><a href="https://www.fortiguard.com/psirt/FG-IR-24-015" target="_blank" rel="noopener">Fortinet PSIRT</a> · <a href="https://nvd.nist.gov/vuln/detail/CVE-2024-21762" target="_blank" rel="noopener">NVD NIST</a> · ANSSI · CERT-FR (février 2024)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SLIDE 4 : SAP NetWeaver ── -->
+        <div class="veille-slide">
+          <div class="veille-card-full">
+            <h3>⚙️ SAP NetWeaver — CVE-2025-31324 (RCE 0-day)</h3>
+            <div class="veille-row">
+              <div class="veille-field">
+                <span class="veille-field-label">🔍 Description de la menace</span>
+                <p>La vulnérabilité <strong>CVE-2025-31324</strong> est un 0-day critique (<strong>CVSS 10.0</strong>) découvert en avril 2025 dans <strong>SAP NetWeaver Visual Composer</strong>. Elle permet à un attaquant non authentifié de téléverser des fichiers arbitraires (webshells JSP) via l'endpoint <code>/developmentserver/metadatauploader</code>, sans aucune interaction utilisateur.</p>
+              </div>
+              <div class="veille-field">
+                <span class="veille-field-label">💥 Impact</span>
+                <p>Exécution de code arbitraire sur le serveur SAP, déploiement de webshells persistants, exfiltration de données ERP critiques (données RH, financières, logistiques). L'exploitation a été observée dans la nature avant la publication du patch officiel. Des milliers de systèmes SAP exposés sur Internet sont potentiellement concernés.</p>
+              </div>
+              <div class="veille-field">
+                <span class="veille-field-label">🛡️ Mesures de protection</span>
+                <p>Appliquer le correctif SAP Note 3594142 en urgence. Désactiver ou restreindre l'accès au composant Visual Composer si non utilisé. Auditer les fichiers récemment déposés sur le serveur SAP. Mettre en place un WAF devant les instances SAP exposées et surveiller les connexions entrantes anormales.</p>
+              </div>
+              <div class="veille-field">
+                <span class="veille-field-label">🔗 Source</span>
+                <p><a href="https://support.sap.com/en/my-support/knowledge-base/security-notes-news.html" target="_blank" rel="noopener">SAP Security Notes</a> · <a href="https://nvd.nist.gov/vuln/detail/CVE-2025-31324" target="_blank" rel="noopener">NVD NIST</a> · ReliaQuest · CERT-FR (avril 2025)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /veille-carousel -->
+
+      <div class="veille-nav">
+        <button class="veille-nav-btn" onclick="veilleNav(-1)" title="Précédent">◀</button>
+        <div class="veille-dots" id="veilleDots">
+          <button class="veille-dot active" onclick="veilleTo(0)"></button>
+          <button class="veille-dot" onclick="veilleTo(1)"></button>
+          <button class="veille-dot" onclick="veilleTo(2)"></button>
+          <button class="veille-dot" onclick="veilleTo(3)"></button>
+        </div>
+        <span class="veille-counter" id="veilleCounter">1 / 4</span>
+        <button class="veille-nav-btn" onclick="veilleNav(1)" title="Suivant">▶</button>
+      </div>
+    </div><!-- /veille-carousel-wrap -->
+  </section>
+  
+<div class="sdiv" style="margin-top: 2.5rem;"></div>
+<h2 style="font-size:1.5rem; font-weight:700; margin: 2.5rem 0 0.5rem 0; color: var(--ac);">📋 Tableau de compétences</h2>
+<div class="bts-intro" style="margin-bottom:1.5rem;">
+  Voici mon tableau de compétences en version PDF, affiché directement dans la page.
+</div>
+
+<div class="card" style="padding: 18px; overflow: hidden;">
+  <div style="width:100%; height: 900px; border-radius: 14px; overflow: hidden;">
+    <iframe 
+      src="img/8 - EPREUVE ORALE E5 - MODELE DE TABLEAU DE SYNTHESE ANNEXE VI-1 - BTS SIO 2026.pdf"
+      style="width:100%; height:100%; border:0;"
+      title="Tableau de compétences PDF">
+    </iframe>
+  </div>
+</div>
+  
 </main>
 
 <script>
@@ -875,6 +1031,22 @@ function toggleProjMenu(){
 })();
 // ---- FIN LIGHTBOX ----
 
+// ── VEILLE CAROUSEL ──
+(function() {
+  var current = 0, total = 4;
+  var carousel = document.getElementById('veilleCarousel');
+  var dots = document.querySelectorAll('.veille-dot');
+  var counter = document.getElementById('veilleCounter');
+  function veilleTo(n) {
+    current = ((n % total) + total) % total;
+    if (carousel) carousel.style.transform = 'translateX(-' + (current * 100) + '%)';
+    dots.forEach(function(d, i) { d.classList.toggle('active', i === current); });
+    if (counter) counter.textContent = (current + 1) + ' / ' + total;
+  }
+  window.veilleTo = veilleTo;
+  window.veilleNav = function(dir) { veilleTo(current + dir); };
+})();  
+  
 </script>
 
 <!-- ═══════════════════ MODAL RDS ═══════════════════ -->
@@ -1286,70 +1458,80 @@ Clear-RecycleBin -Force</code></pre>
       </div>
       <button type="button" class="proj-modal-close" onclick="closeProjModal('modal-portail')">✕</button>
     </div>
-    <div class="proj-modal-body">
-      <div class="pms"><h3>Contexte</h3>
-        <p>Projet réalisé en entreprise chez un client. L'objectif était de déployer une infrastructure réseau complète avec un <strong>Switch Grandstream 24 ports PoE</strong>, des bornes WiFi et un portail captif pour les visiteurs, tout en isolant le réseau invité du réseau interne.</p>
+        <div class="proj-modal-body">
+      <div class="pms">
+        <h3>Contexte</h3>
+        <p>Projet réalisé en entreprise chez un client disposant d'une infrastructure WiFi existante composée de <strong>4 bornes Ubiquiti</strong> gérées via un <strong>serveur UniFi Controller</strong>, toutes raccordées à un <strong>switch 24 ports PoE Grandstream</strong>. Ce switch est relié à un <strong>pare-feu Zyxel</strong> assurant l'accès à la fibre de l'entreprise. Le réseau employé fonctionnait sur le <strong>VLAN 1 (natif)</strong>.</p>
       </div>
-      <div class="pms"><h3>Problématique</h3>
-        <p>Comment permettre un accès Internet aux visiteurs via WiFi, sans qu'ils puissent accéder au réseau interne de l'entreprise, et en leur imposant une page d'authentification (portail captif) avant toute connexion ?</p>
+      <div class="pms">
+        <h3>Problématique</h3>
+        <p>Le client souhaitait offrir un accès WiFi à ses visiteurs et prestataires extérieurs, sans compromettre la sécurité du réseau interne. Il fallait donc mettre en place un réseau WiFi invité <strong>isolé logiquement</strong> du réseau employé, avec une <strong>authentification obligatoire</strong> (identifiant + mot de passe) avant tout accès à Internet.</p>
       </div>
-      <div class="pms"><h3>Objectifs</h3>
+      <div class="pms">
+        <h3>Objectifs</h3>
         <ul>
-          <li>Segmenter le réseau via un VLAN dédié aux invités (VLAN 10)</li>
-          <li>Distribuer les adresses IP aux invités via un DHCP configuré sur l'interface SVI</li>
-          <li>Déployer des bornes WiFi PoE managées et les rattacher au VLAN invité</li>
-          <li>Mettre en place un portail captif pour contrôler l'accès Internet des visiteurs</li>
+          <li>Créer un réseau WiFi invité séparé du réseau interne (VLAN dédié)</li>
+          <li>Imposer une authentification par portail captif avant tout accès Internet</li>
+          <li>Distribuer des adresses IP spécifiques aux invités via un serveur DHCP dédié</li>
+          <li>Garantir l'isolation totale entre le trafic invité et le trafic employé</li>
         </ul>
       </div>
-      <div class="pms"><h3>Solution mise en place</h3>
+      <div class="pms">
+        <h3>Solution mise en place</h3>
         <div class="pms-grid">
-          <div class="pms-item"><strong>Switch Grandstream 24 PoE</strong><span>Alimentation et gestion des bornes WiFi, configuration des VLANs et du trunk</span></div>
-          <div class="pms-item"><strong>VLAN 10 – Invités</strong><span>VLAN dédié isolant les visiteurs du LAN interne</span></div>
-          <div class="pms-item"><strong>DHCP via SVI</strong><span>Interface virtuelle de commutation (SVI) sur VLAN 10 faisant office de passerelle et serveur DHCP</span></div>
-          <div class="pms-item"><strong>Portail captif</strong><span>Page d'authentification obligatoire avant tout accès Internet pour les utilisateurs WiFi invités</span></div>
+          <div class="pms-item"><strong>VLAN 10 – Invités</strong><span>Création du VLAN 10 sur le serveur UniFi Controller, rattaché au SSID WiFi invité</span></div>
+          <div class="pms-item"><strong>Switch Grandstream 24 PoE</strong><span>Tagging du VLAN 10 sur le port connecté à la GiTaBox Telmat pour acheminer le trafic invité</span></div>
+          <div class="pms-item"><strong>GiTaBox Telmat</strong><span>Boîtier dédié assurant le filtrage DHCP et la gestion du portail captif pour les utilisateurs invités</span></div>
+          <div class="pms-item"><strong>DHCP invité</strong><span>Serveur DHCP configuré sur la GiTaBox avec une plage d'adresses IP spécifique et isolée</span></div>
+          <div class="pms-item"><strong>Portail captif</strong><span>Configuration sur la GiTaBox Telmat — page d'authentification (login/mot de passe) obligatoire avant tout accès Internet</span></div>
+          <div class="pms-item"><strong>Isolation réseau</strong><span>Séparation logique garantie par le VLAN : les invités ne peuvent pas atteindre le VLAN 1 (réseau employé)</span></div>
         </div>
       </div>
-      <div class="pms"><h3>Extrait technique</h3>
+      <div class="pms">
+        <h3>Architecture de la solution</h3>
         <div class="proj-code-block">
-          <div class="proj-code-block-header"><span>Configuration VLAN + SVI + DHCP (Switch Grandstream)</span></div>
-          <pre><code># Création du VLAN invité
-vlan 10
-  name Invites
-
-# Interface SVI — passerelle + DHCP pour le VLAN 10
-interface vlan 10
-  ip address 192.168.x.1 255.255.255.0
-  ip dhcp pool VLAN10-INVITES
-    network 192.168.x.0 255.255.255.0
-    default-router 192.168.x.1
-    dns-server 8.8.8.8
-
-# Port trunk vers les bornes WiFi (PoE)
-interface GigabitEthernet 1/0/x
-  switchport mode trunk
-  switchport trunk allowed vlan 10</code></pre>
+          <div class="proj-code-block-header"><span>Flux réseau — WiFi Invité (simplifié)</span></div>
+          <pre><code>Bornes Ubiquiti (SSID Invité → VLAN 10)
+         │
+         ▼
+Switch Grandstream 24 PoE
+  ├── Port Ubiquiti  : tagged VLAN 1 + VLAN 10
+  ├── Port GiTaBox   : tagged VLAN 10 uniquement
+  └── Port Zyxel FW  : uplink fibre (VLAN 1)
+         │
+         ▼
+GiTaBox Telmat
+  ├── DHCP invité (plage dédiée VLAN 10)
+  └── Portail captif (auth login/mdp)
+         │
+         ▼
+     Internet (via Zyxel)</code></pre>
         </div>
       </div>
-      <div class="pms"><h3>Preuves visuelles</h3>
+      <div class="pms">
+        <h3>Preuves visuelles</h3>
         <div class="proj-screenshots-grid">
           <div class="proj-screenshot-slot">
-             <img src="img/Unapei30.png" alt="Unapei30" loading="lazy">
-            <div class="slot-caption">Schéma réseau de l'infrastructure — topologie Switch, bornes WiFi, VLAN 10, portail captif</div>
+            <img src="img/Unapei30.png" alt="Schéma réseau" loading="lazy">
+            <div class="slot-caption">Schéma de l'infrastructure réseau — topologie complète avec VLAN 10, bornes Ubiquiti et GiTaBox</div>
           </div>
         </div>
       </div>
-      <div class="pms"><h3>Résultats obtenus</h3>
+      <div class="pms">
+        <h3>Résultats obtenus</h3>
         <ul>
-          <li>Réseau invité totalement isolé du LAN interne via VLAN 10</li>
-          <li>Distribution automatique des IPs aux visiteurs via DHCP sur SVI</li>
-          <li>Portail captif fonctionnel — les invités doivent s'authentifier avant d'accéder à Internet</li>
-          <li>Bornes WiFi alimentées en PoE et managées depuis le switch</li>
+          <li>Réseau WiFi invité opérationnel, totalement isolé du réseau employé (VLAN 1)</li>
+          <li>Les visiteurs obtiennent une adresse IP dans la plage dédiée du VLAN 10</li>
+          <li>Portail captif fonctionnel — authentification obligatoire avant accès à Internet</li>
+          <li>Aucun accès possible depuis le réseau invité vers les ressources internes de l'entreprise</li>
         </ul>
       </div>
-      <div class="pms"><h3>Compétences BTS mobilisées</h3>
-        <div class="bts-skill"><span class="bts-skill-code">B3.1</span><div class="bts-skill-desc"><strong>Configuration réseau</strong> — VLANs, trunk, SVI, DHCP sur switch manageable Grandstream</div></div>
-        <div class="bts-skill"><span class="bts-skill-code">B4.1</span><div class="bts-skill-desc"><strong>Sécurisation réseau</strong> — Isolation du réseau invité, portail captif, segmentation VLAN</div></div>
-        <div class="bts-skill"><span class="bts-skill-code">B1.1</span><div class="bts-skill-desc"><strong>Support et déploiement</strong> — Mise en service d'un équipement réseau en environnement client</div></div>
+      <div class="pms">
+        <h3>Compétences BTS mobilisées</h3>
+        <div class="bts-skill"><span class="bts-skill-code">B3.2</span><div class="bts-skill-desc"><strong>Configuration réseau</strong> — VLAN tagging, segmentation réseau, gestion des ports trunk sur switch Grandstream</div></div>
+        <div class="bts-skill"><span class="bts-skill-code">B4.1</span><div class="bts-skill-desc"><strong>Sécurisation de l'accès réseau</strong> — Isolation VLAN, portail captif, authentification des utilisateurs invités</div></div>
+        <div class="bts-skill"><span class="bts-skill-code">B3.1</span><div class="bts-skill-desc"><strong>Déploiement d'équipements</strong> — Installation et configuration de la GiTaBox Telmat, UniFi Controller, bornes Ubiquiti</div></div>
+        <div class="bts-skill"><span class="bts-skill-code">B1.1</span><div class="bts-skill-desc"><strong>Support client</strong> — Analyse du besoin, mise en service en environnement de production chez le client</div></div>
       </div>
       <div class="proj-modal-footer">
         <button type="button" class="btn-close-proj" onclick="closeProjModal('modal-portail')">← Retour</button>
@@ -1504,6 +1686,209 @@ Send-MailMessage -From $emailFrom -To $emailTo -Subject $emailSubject `
     </div>
   </div>
 </div>
+
+<!-- ═══════════════════ MODAL VPN ═══════════════════ -->
+<div class="proj-modal" id="modal-vpn">
+  <div class="proj-modal-content">
+    <div class="proj-modal-header">
+      <div class="proj-modal-header-left">
+        <div class="proj-modal-emoji-title">
+          <span class="proj-modal-emoji">🔐</span>
+          <h2>Projet VPN – IPSec Site-to-Site</h2>
+        </div>
+        <div class="proj-modal-htags">
+          <span class="tag">VPN</span><span class="tag">IPSec</span><span class="tag">Cisco IOS</span><span class="tag">Cryptographie</span><span class="tag">Packet Tracer</span>
+        </div>
+      </div>
+      <button type="button" class="proj-modal-close" onclick="closeProjModal('modal-vpn')">✕</button>
+    </div>
+    <div class="proj-modal-body">
+      <div class="pms">
+        <h3>Contexte</h3>
+        <p>Projet réalisé dans le cadre de la formation BTS SIO SISR sous <strong>Cisco Packet Tracer</strong>. L'objectif est de simuler une interconnexion sécurisée entre deux sites d'entreprise distants via un tunnel VPN IPSec, afin de garantir la confidentialité et l'intégrité des échanges sur un réseau public non fiable.</p>
+      </div>
+      <div class="pms">
+        <h3>Problématique</h3>
+        <p>Comment interconnecter de façon sécurisée deux sites géographiquement distants sur Internet, en garantissant que les données échangées soient chiffrées, authentifiées et protégées contre toute interception ou altération ?</p>
+      </div>
+      <div class="pms">
+        <h3>Objectifs</h3>
+        <ul>
+          <li>Configurer un tunnel VPN IPSec en mode site-to-site entre deux routeurs Cisco</li>
+          <li>Mettre en œuvre la phase 1 (IKE) et la phase 2 (IPSec) du protocole</li>
+          <li>Définir les politiques de chiffrement (AES, SHA, DH Group)</li>
+          <li>Valider le tunnel par des tests de connectivité inter-sites</li>
+        </ul>
+      </div>
+      <div class="pms">
+        <h3>Solution mise en place</h3>
+        <div class="pms-grid">
+          <div class="pms-item"><strong>Phase 1 — IKE</strong><span>Authentification PSK, chiffrement AES-256, hachage SHA-256, groupe Diffie-Hellman 2</span></div>
+          <div class="pms-item"><strong>Phase 2 — IPSec</strong><span>Protocole ESP, chiffrement AES-256, mode tunnel, transform-set configuré</span></div>
+          <div class="pms-item"><strong>Crypto Map</strong><span>Association de la politique IPSec à l'interface WAN de chaque routeur</span></div>
+          <div class="pms-item"><strong>ACL de trafic</strong><span>Listes d'accès définissant le trafic intéressant à chiffrer entre les deux LAN</span></div>
+        </div>
+        <div class="proj-code-block" style="margin-top:14px">
+          <div class="proj-code-block-header"><span>Extrait configuration IPSec — Routeur Site A (Cisco IOS)</span></div>
+          <pre><code>! Phase 1 — IKE Policy
+crypto isakmp policy 10
+ encr aes 256
+ hash sha256
+ authentication pre-share
+ group 2
+crypto isakmp key VPN_SECRET address [IP_SITE_B]
+
+! Phase 2 — IPSec Transform-Set
+crypto ipsec transform-set TS_VPN esp-aes 256 esp-sha-hmac
+
+! Crypto Map
+crypto map CMAP 10 ipsec-isakmp
+ set peer [IP_SITE_B]
+ set transform-set TS_VPN
+ match address ACL_VPN
+
+! ACL trafic intéressant
+ip access-list extended ACL_VPN
+ permit ip 192.168.1.0 0.0.0.255 192.168.2.0 0.0.0.255
+
+! Application sur l'interface WAN
+interface Serial0/0/0
+ crypto map CMAP</code></pre>
+        </div>
+      </div>
+      <div class="pms">
+            <div class="pms">
+        <h3>Preuves visuelles</h3>
+        <div class="proj-screenshots-grid">
+          <div class="proj-screenshot-slot">
+            <img src="img/vpn_view.png" alt="ad_view" loading="lazy">
+            <div class="slot-caption">Topologie du lab Packet Tracer — Site A, Site B, routeurs et liaisons WAN</div>
+          </div>
+          <div class="proj-screenshot-slot">
+            <img src="img/vpn_key.png" alt="ad_utilities" loading="lazy">
+            <div class="slot-caption">Configuration IKE Phase 1 — politiques de chiffrement et authentification PSK</div>
+          </div>
+          <div class="proj-screenshot-slot">
+            <img src="img/vpn_map.png" alt="ad_remote" loading="lazy">
+            <div class="slot-caption">Crypto Map appliquée — association de la politique IPSec à l'interface WAN</div>
+          </div>
+          <div class="proj-screenshot-slot">
+            <img src="img/vpn_ping.png" alt="ad_domaine" loading="lazy">
+            <div class="slot-caption">Test de connectivité — ping inter-sites validant l'établissement du tunnel</div>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div class="pms">
+        <h3>Résultats obtenus</h3>
+        <ul>
+          <li>Tunnel IPSec établi avec succès entre les deux sites</li>
+          <li>Trafic inter-sites chiffré en AES-256 et authentifié par SHA-256</li>
+          <li>Connectivité inter-LAN fonctionnelle, trafic hors-tunnel non chiffré (isolation correcte)</li>
+          <li>Vérification de l'état du tunnel via <code>show crypto isakmp sa</code> et <code>show crypto ipsec sa</code></li>
+        </ul>
+      </div>
+      <div class="pms">
+        <h3>Compétences BTS mobilisées</h3>
+        <div class="bts-skill"><span class="bts-skill-code">B4.1</span><div class="bts-skill-desc"><strong>Sécurisation des accès distants</strong> — Mise en œuvre d'un VPN IPSec site-to-site, chiffrement et authentification</div></div>
+        <div class="bts-skill"><span class="bts-skill-code">B3.2</span><div class="bts-skill-desc"><strong>Configuration réseau avancée</strong> — Routage, ACL, interfaces WAN et politiques de sécurité sur routeurs Cisco</div></div>
+        <div class="bts-skill"><span class="bts-skill-code">B4.3</span><div class="bts-skill-desc"><strong>Cryptographie appliquée</strong> — Protocoles IKE/IPSec, algorithmes AES, SHA, échange de clés Diffie-Hellman</div></div>
+      </div>
+      <div class="proj-modal-footer">
+        <button type="button" class="btn-close-proj" onclick="closeProjModal('modal-vpn')">← Retour</button>
+        <span style="font-size:.8rem;color:var(--text-muted)">📄 Documentation complète disponible sur demande</span>
+      </div>
+    </div>
+  </div>
+</div>
+  
+<!-- ═══════════════════ MODAL CENTREON ═══════════════════ -->
+<div class="proj-modal" id="modal-centreon">
+  <div class="proj-modal-content">
+    <div class="proj-modal-header">
+      <div class="proj-modal-header-left">
+        <div class="proj-modal-emoji-title">
+          <span class="proj-modal-emoji">📊</span>
+          <h2>Projet Centreon – Supervision Réseau</h2>
+        </div>
+        <div class="proj-modal-htags">
+          <span class="tag">Centreon</span><span class="tag">SNMP</span><span class="tag">Supervision</span><span class="tag">Linux</span><span class="tag">Nagios Core</span>
+        </div>
+      </div>
+      <button type="button" class="proj-modal-close" onclick="closeProjModal('modal-centreon')">✕</button>
+    </div>
+    <div class="proj-modal-body">
+      <div class="pms">
+        <h3>Contexte</h3>
+        <p>Projet réalisé dans le cadre de la formation BTS SIO SISR. L'objectif est de déployer une plateforme de <strong>supervision réseau</strong> basée sur <strong>Centreon</strong> (moteur Nagios Core) sur un serveur Linux, afin de surveiller en temps réel la disponibilité et les performances des équipements du réseau.</p>
+      </div>
+      <div class="pms">
+        <h3>Problématique</h3>
+        <p>Comment centraliser la surveillance d'une infrastructure réseau hétérogène (serveurs, équipements réseau, services) et être alerté en temps réel en cas de panne ou de dépassement de seuils, afin d'assurer la continuité de service ?</p>
+      </div>
+      <div class="pms">
+        <h3>Objectifs</h3>
+        <ul>
+          <li>Installer et configurer Centreon sur un serveur Linux (CentOS / Alma Linux)</li>
+          <li>Ajouter des hôtes (serveurs, équipements réseau) à superviser</li>
+          <li>Configurer des services de supervision (ping, CPU, RAM, espace disque, ports réseau)</li>
+          <li>Définir les seuils d'alerte (warning / critical) et les contacts de notification</li>
+          <li>Consulter et analyser les graphes de performance générés</li>
+        </ul>
+      </div>
+      <div class="pms">
+        <h3>Solution mise en place</h3>
+        <div class="pms-grid">
+          <div class="pms-item"><strong>Centreon Central</strong><span>Serveur de supervision installé sur AlmaLinux — interface web, moteur Nagios, base de données MariaDB</span></div>
+          <div class="pms-item"><strong>Hôtes supervisés</strong><span>Ajout de serveurs Windows/Linux et équipements réseau via l'interface web Centreon</span></div>
+          <div class="pms-item"><strong>Services configurés</strong><span>Check ICMP (ping), CPU, RAM, espace disque (via SNMP/NRPE), statut des ports réseau</span></div>
+          <div class="pms-item"><strong>Alertes & Notifications</strong><span>Seuils warning/critical définis, notifications email configurées vers les contacts d'astreinte</span></div>
+        </div>
+      </div>
+      <div class="pms">
+        <h3>Preuves visuelles</h3>
+        <div class="proj-screenshots-grid">
+          <div class="proj-screenshot-slot">
+            <img src="img/centreon_view.png" alt="ad_view" loading="lazy">
+            <div class="slot-caption">Interface Centreon — tableau de bord de supervision avec état des hôtes et services</div>
+          </div>
+          <div class="proj-screenshot-slot">
+            <img src="img/centreon_host.png" alt="ad_utilities" loading="lazy">
+            <div class="slot-caption">Configuration d'un hôte — ajout d'un équipement réseau et association des templates</div>
+          </div>
+          <div class="proj-screenshot-slot">
+            <img src="img/centreon_check.png" alt="ad_remote" loading="lazy">
+            <div class="slot-caption">Vue des services — état OK / WARNING / CRITICAL des checks configurés</div>
+          </div>
+          <div class="proj-screenshot-slot">
+            <img src="img/centreon_stats.png" alt="ad_domaine" loading="lazy">
+            <div class="slot-caption">Utilisation CPU/RAM sur la durée</div>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div class="pms">
+        <h3>Résultats obtenus</h3>
+        <ul>
+          <li>Plateforme Centreon opérationnelle avec supervision de plusieurs hôtes</li>
+          <li>Détection en temps réel des pannes et alertes par email fonctionnelles</li>
+          <li>Graphes de performance générés et consultables sur 24h/7j/1 mois</li>
+          <li>Base documentaire constituée (procédure d'ajout d'hôte, configuration SNMP)</li>
+        </ul>
+      </div>
+      <div class="pms">
+        <h3>Compétences BTS mobilisées</h3>
+        <div class="bts-skill"><span class="bts-skill-code">B3.1</span><div class="bts-skill-desc"><strong>Administration système</strong> — Installation et configuration de Centreon sur serveur Linux</div></div>
+        <div class="bts-skill"><span class="bts-skill-code">B1.4</span><div class="bts-skill-desc"><strong>Supervision de l'infrastructure</strong> — Mise en œuvre d'outils de monitoring, définition des seuils d'alerte</div></div>
+        <div class="bts-skill"><span class="bts-skill-code">B3.2</span><div class="bts-skill-desc"><strong>Protocoles réseau</strong> — Utilisation de SNMP pour la remontée d'informations des équipements supervisés</div></div>
+      </div>
+      <div class="proj-modal-footer">
+        <button type="button" class="btn-close-proj" onclick="closeProjModal('modal-centreon')">← Retour</button>
+        <span style="font-size:.8rem;color:var(--text-muted)">📄 Documentation complète disponible sur demande</span>
+      </div>
+    </div>
+  </div>
+</div>  
 
 </body>
 </html>
