@@ -725,56 +725,6 @@ body { display: flex; height: 100vh; overflow: hidden; }
           </div>
         </div>
 
-        <!-- ── SLIDE 2 : Viamedis ── -->
-        <div class="veille-slide">
-          <div class="veille-card-full">
-            <h3>🏥 Viamedis — Fuite de données tiers payant</h3>
-            <div class="veille-row">
-              <div class="veille-field">
-                <span class="veille-field-label">🔍 Description de la menace</span>
-                <p><strong>Viamedis</strong> est un opérateur de tiers payant français gérant les remboursements de complémentaires santé. En février 2024, une cyberattaque (phishing ciblé sur des comptes professionnels de santé) a conduit à une <strong>fuite massive de données personnelles</strong> touchant plus de 33 millions d'assurés en France.</p>
-              </div>
-              <div class="veille-field">
-                <span class="veille-field-label">💥 Impact</span>
-                <p>Données exposées : état civil, date de naissance, numéro de Sécurité sociale, nom de l'assureur, garanties contractuelles. Risque élevé de phishing ciblé, d'usurpation d'identité et de fraudes à l'assurance. La CNIL a ouvert une enquête et notifié les personnes concernées conformément au RGPD.</p>
-              </div>
-              <div class="veille-field">
-                <span class="veille-field-label">🛡️ Mesures de protection</span>
-                <p>Mettre en œuvre une authentification forte (MFA) sur tous les accès professionnels, former le personnel aux techniques de phishing, appliquer une politique stricte de gestion des accès (IAM), chiffrer les bases de données sensibles, et effectuer des audits de sécurité réguliers sur les systèmes exposés.</p>
-              </div>
-              <div class="veille-field">
-                <span class="veille-field-label">🔗 Source</span>
-                <p><a href="https://www.cnil.fr" target="_blank" rel="noopener">CNIL.fr</a> · <a href="https://www.cert.ssi.gouv.fr" target="_blank" rel="noopener">CERT-FR</a> · Le Monde Informatique · LeMagIT (février 2024)</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ── SLIDE 3 : FortiGate ── -->
-        <div class="veille-slide">
-          <div class="veille-card-full">
-            <h3>🔥 FortiGate — CVE-2024-21762 (RCE Critique)</h3>
-            <div class="veille-row">
-              <div class="veille-field">
-                <span class="veille-field-label">🔍 Description de la menace</span>
-                <p>La vulnérabilité <strong>CVE-2024-21762</strong> est une faille critique (<strong>CVSS 9.6</strong>) affectant FortiOS et FortiProxy de Fortinet. Elle permet à un attaquant non authentifié d'exécuter du code arbitraire à distance (<strong>RCE</strong>) via des requêtes HTTP malformées, en exploitant un bug de type <em>out-of-bounds write</em> dans le composant SSL-VPN.</p>
-              </div>
-              <div class="veille-field">
-                <span class="veille-field-label">💥 Impact</span>
-                <p>Prise de contrôle totale du pare-feu sans authentification préalable, permettant l'accès au réseau interne, la pose de backdoors persistantes et la latéralisation sur le SI. Fortinet a confirmé l'exploitation active de cette CVE dans la nature. Versions affectées : FortiOS 6.x à 7.4.x.</p>
-              </div>
-              <div class="veille-field">
-                <span class="veille-field-label">🛡️ Mesures de protection</span>
-                <p>Appliquer immédiatement le patch Fortinet (FortiOS 7.4.3+, 7.2.7+, 7.0.14+). En attente de patch : désactiver le SSL-VPN via l'interface HTTP/HTTPS. Surveiller les journaux d'accès pour détecter des connexions anormales. Mettre en place une veille CVE active sur les équipements périmètriques.</p>
-              </div>
-              <div class="veille-field">
-                <span class="veille-field-label">🔗 Source</span>
-                <p><a href="https://www.fortiguard.com/psirt/FG-IR-24-015" target="_blank" rel="noopener">Fortinet PSIRT</a> · <a href="https://nvd.nist.gov/vuln/detail/CVE-2024-21762" target="_blank" rel="noopener">NVD NIST</a> · ANSSI · CERT-FR (février 2024)</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <!-- ── SLIDE 4 : SAP NetWeaver ── -->
         <div class="veille-slide">
           <div class="veille-card-full">
@@ -807,10 +757,8 @@ body { display: flex; height: 100vh; overflow: hidden; }
         <div class="veille-dots" id="veilleDots">
           <button class="veille-dot active" onclick="veilleTo(0)"></button>
           <button class="veille-dot" onclick="veilleTo(1)"></button>
-          <button class="veille-dot" onclick="veilleTo(2)"></button>
-          <button class="veille-dot" onclick="veilleTo(3)"></button>
         </div>
-        <span class="veille-counter" id="veilleCounter">1 / 4</span>
+        <span class="veille-counter" id="veilleCounter">1 / 2</span>
         <button class="veille-nav-btn" onclick="veilleNav(1)" title="Suivant">▶</button>
       </div>
     </div><!-- /veille-carousel-wrap -->
@@ -1033,7 +981,7 @@ function toggleProjMenu(){
 
 // ── VEILLE CAROUSEL ──
 (function() {
-  var current = 0, total = 4;
+  var current = 0, total = 2;
   var carousel = document.getElementById('veilleCarousel');
   var dots = document.querySelectorAll('.veille-dot');
   var counter = document.getElementById('veilleCounter');
